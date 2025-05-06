@@ -72,19 +72,26 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
           content: msg.content
         }));
 
-      // Call the Supabase Edge Function with a timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+      // Set up timeout for the API call
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("Request timed out")), 15000);
+      });
       
-      const { data, error } = await supabase.functions.invoke('chat-with-selam', {
+      // Call the Supabase Edge Function
+      const responsePromise = supabase.functions.invoke('chat-with-selam', {
         body: { 
           messages: messageHistory,
           userId: authState.user?.id || null
-        },
-        signal: controller.signal
+        }
       });
       
-      clearTimeout(timeoutId);
+      // Race the API call against the timeout
+      const { data, error } = await Promise.race([
+        responsePromise,
+        timeoutPromise.then(() => {
+          throw new Error("Request timed out");
+        })
+      ]) as any;
       
       if (error) {
         throw new Error(error.message);
