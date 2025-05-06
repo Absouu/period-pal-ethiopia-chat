@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { CycleData } from "@/types";
-import { saveCycleData } from "@/services/cycleService";
+import { saveCycleData, deleteCycleData } from "@/services/cycleService";
 import { toast } from "@/components/ui/sonner";
 
 interface CycleDetailProps {
@@ -34,6 +34,7 @@ const CycleDetail: React.FC<CycleDetailProps> = ({
       const formattedDate = format(date, "yyyy-MM-dd");
       
       await saveCycleData({
+        id: existingData?.id,
         startDate: formattedDate,
         symptoms,
       });
@@ -48,10 +49,28 @@ const CycleDetail: React.FC<CycleDetailProps> = ({
     }
   };
 
-  const deleteData = () => {
-    // Placeholder for future delete functionality
-    toast.info("Delete functionality will be added soon");
-    onClose();
+  const handleDelete = async () => {
+    if (!existingData?.id) {
+      toast.error("Cannot delete: No ID found");
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      const success = await deleteCycleData(existingData.id);
+      
+      if (success) {
+        toast.success("Cycle data deleted successfully");
+        onSave(); // This will refresh the calendar
+      } else {
+        toast.error("Failed to delete cycle data");
+      }
+    } catch (error) {
+      console.error("Error deleting cycle data:", error);
+      toast.error("Failed to delete cycle data");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -92,8 +111,8 @@ const CycleDetail: React.FC<CycleDetailProps> = ({
             {isLoading ? "Saving..." : "Save"}
           </Button>
         </div>
-        {existingData && !isPredicted && (
-          <Button variant="destructive" onClick={deleteData} disabled={isLoading}>
+        {existingData && !isPredicted && existingData.id && (
+          <Button variant="destructive" onClick={handleDelete} disabled={isLoading}>
             Delete
           </Button>
         )}

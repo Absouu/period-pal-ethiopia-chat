@@ -2,6 +2,8 @@
 import React from "react";
 import CycleCalendar from "@/components/calendar/CycleCalendar";
 import { useAuth } from "@/context/AuthContext";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const Calendar = () => {
   const { authState } = useAuth();
@@ -39,6 +41,15 @@ const Calendar = () => {
           <h1 className="text-3xl sm:text-4xl font-bold text-primary">Your Cycle Calendar</h1>
           <p className="text-lg text-gray-600">Track, visualize, and predict your menstrual cycles</p>
         </header>
+        
+        <Alert className="mb-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Database Setup Required</AlertTitle>
+          <AlertDescription>
+            To use the calendar functionality, you need to create a 'cycles' table in your Supabase project. 
+            Please check the src/migrations/createCyclesTable.sql file for the required SQL commands.
+          </AlertDescription>
+        </Alert>
         
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 animate-fade-in">
           <CycleCalendar />
