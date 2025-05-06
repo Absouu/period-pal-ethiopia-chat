@@ -16,7 +16,7 @@ export const saveCycleData = async (cycleData: CycleData): Promise<CycleData | n
     const dataForDb = {
       startdate: cycleData.startDate,
       symptoms: cycleData.symptoms,
-      mood: cycleData.mood,
+      mood: cycleData.mood, // Include mood field for database
       user_id: user.id,
     };
 
@@ -74,7 +74,7 @@ export const saveCycleData = async (cycleData: CycleData): Promise<CycleData | n
         id: data[0].id,
         startDate: data[0].startdate,
         symptoms: data[0].symptoms || "",
-        mood: data[0].mood,
+        mood: data[0].mood, // Extract mood field from database response
         user_id: data[0].user_id,
         created_at: data[0].created_at
       };
@@ -117,7 +117,7 @@ export const getUserCycleData = async (): Promise<CycleData[]> => {
       id: item.id,
       startDate: item.startdate,
       symptoms: item.symptoms || "",
-      mood: item.mood,
+      mood: item.mood || "neutral", // Add default value if not present
       user_id: item.user_id,
       created_at: item.created_at
     }));
