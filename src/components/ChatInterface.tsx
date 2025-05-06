@@ -1,5 +1,5 @@
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatMessage, CharacterMood } from "../types";
@@ -27,13 +27,15 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { authState } = useAuth();
   
+  const scrollToBottom = useCallback(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+  
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
-  
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, [messages, scrollToBottom]);
 
   const handleSend = async () => {
     if (inputValue.trim() === "" || isTyping) return;
@@ -51,14 +53,15 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
     
     try {
       // Add typing indicator
-      const typingMessage: ChatMessage = {
-        id: "typing",
-        content: "Typing...",
-        sender: "bot",
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, typingMessage]);
+      setMessages(prev => [
+        ...prev, 
+        {
+          id: "typing",
+          content: "Typing...",
+          sender: "bot",
+          timestamp: new Date()
+        }
+      ]);
       
       // Format messages for the OpenAI API (excluding typing indicators)
       const messageHistory = messages
@@ -69,13 +72,19 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
           content: msg.content
         }));
 
-      // Call the Supabase Edge Function
+      // Call the Supabase Edge Function with a timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+      
       const { data, error } = await supabase.functions.invoke('chat-with-selam', {
         body: { 
           messages: messageHistory,
           userId: authState.user?.id || null
-        }
+        },
+        signal: controller.signal
       });
+      
+      clearTimeout(timeoutId);
       
       if (error) {
         throw new Error(error.message);

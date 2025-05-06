@@ -1,28 +1,53 @@
 
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar as CalendarIcon, ShoppingBag } from "lucide-react";
-import CharacterDisplay from "@/components/CharacterDisplay";
-import ChatInterface from "@/components/ChatInterface";
-import EducationalContent from "@/components/EducationalContent";
-import CycleDataForm from "@/components/CycleDataForm";
-import Auth from "@/components/Auth";
 import { CharacterMood } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Lazy-loaded components
+const CharacterDisplay = lazy(() => import("@/components/CharacterDisplay"));
+const ChatInterface = lazy(() => import("@/components/ChatInterface"));
+const EducationalContent = lazy(() => import("@/components/EducationalContent"));
+const CycleDataForm = lazy(() => import("@/components/CycleDataForm"));
+const Auth = lazy(() => import("@/components/Auth"));
+
+// Loading placeholder components
+const CharacterSkeleton = () => (
+  <div className="flex flex-col items-center justify-center py-8">
+    <Skeleton className="h-32 w-32 rounded-full" />
+    <Skeleton className="h-4 w-48 mt-4" />
+  </div>
+);
+
+const ContentSkeleton = () => (
+  <div className="space-y-4 py-4">
+    <Skeleton className="h-8 w-full" />
+    <Skeleton className="h-32 w-full" />
+    <Skeleton className="h-8 w-3/4" />
+    <Skeleton className="h-24 w-full" />
+  </div>
+);
 
 const Index = () => {
   const [characterMood, setCharacterMood] = useState<CharacterMood>("neutral");
   const { authState, signOut } = useAuth();
   const { user, isLoading } = authState;
+  const [activeTab, setActiveTab] = useState<string>("chat");
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-muted py-8 px-4 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-xl">Loading...</p>
+          <div className="animate-pulse flex flex-col items-center">
+            <div className="rounded-full bg-slate-200 h-24 w-24 mb-4"></div>
+            <div className="h-4 bg-slate-200 rounded w-32 mb-2"></div>
+            <div className="h-4 bg-slate-200 rounded w-24"></div>
+          </div>
         </div>
       </div>
     );
@@ -72,13 +97,17 @@ const Index = () => {
           </div>
         </header>
         
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 animate-fade-in">
-          <CharacterDisplay mood={characterMood} />
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <Suspense fallback={<CharacterSkeleton />}>
+            <CharacterDisplay mood={characterMood} />
+          </Suspense>
           
           {!user ? (
-            <Auth />
+            <Suspense fallback={<ContentSkeleton />}>
+              <Auth />
+            </Suspense>
           ) : (
-            <Tabs defaultValue="chat" className="w-full mt-4">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-4">
               <TabsList className="grid w-full grid-cols-3 mb-6">
                 <TabsTrigger value="chat">Chat with Selam</TabsTrigger>
                 <TabsTrigger value="learn">Learn More</TabsTrigger>
@@ -86,35 +115,47 @@ const Index = () => {
               </TabsList>
               
               <TabsContent value="chat" className="focus:outline-none">
-                <ChatInterface onMoodChange={setCharacterMood} />
+                <Suspense fallback={<ContentSkeleton />}>
+                  {activeTab === "chat" && (
+                    <ChatInterface onMoodChange={setCharacterMood} />
+                  )}
+                </Suspense>
               </TabsContent>
               
               <TabsContent value="learn" className="focus:outline-none">
-                <EducationalContent />
+                <Suspense fallback={<ContentSkeleton />}>
+                  {activeTab === "learn" && <EducationalContent />}
+                </Suspense>
               </TabsContent>
               
               <TabsContent value="track" className="focus:outline-none">
-                <CycleDataForm />
-                
-                <div className="mt-8 text-center">
-                  <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <Link to="/calendar" className="inline-flex items-center">
-                      <Button className="flex items-center gap-2 w-full">
-                        <CalendarIcon className="w-5 h-5" />
-                        View Full Calendar
-                      </Button>
-                    </Link>
-                    <Link to="/products" className="inline-flex items-center">
-                      <Button className="flex items-center gap-2 w-full">
-                        <ShoppingBag className="w-5 h-5" />
-                        Browse Products
-                      </Button>
-                    </Link>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Track your cycle and access quality menstrual products
-                  </p>
-                </div>
+                <Suspense fallback={<ContentSkeleton />}>
+                  {activeTab === "track" && (
+                    <>
+                      <CycleDataForm />
+                      
+                      <div className="mt-8 text-center">
+                        <div className="flex flex-col sm:flex-row justify-center gap-4">
+                          <Link to="/calendar" className="inline-flex items-center">
+                            <Button className="flex items-center gap-2 w-full">
+                              <CalendarIcon className="w-5 h-5" />
+                              View Full Calendar
+                            </Button>
+                          </Link>
+                          <Link to="/products" className="inline-flex items-center">
+                            <Button className="flex items-center gap-2 w-full">
+                              <ShoppingBag className="w-5 h-5" />
+                              Browse Products
+                            </Button>
+                          </Link>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-2">
+                          Track your cycle and access quality menstrual products
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </Suspense>
               </TabsContent>
             </Tabs>
           )}
