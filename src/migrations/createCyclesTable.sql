@@ -1,9 +1,9 @@
 
 -- Create the cycles table
 CREATE TABLE public.cycles (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  startDate DATE NOT NULL,
+  startDate TEXT NOT NULL,
   symptoms TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
   
