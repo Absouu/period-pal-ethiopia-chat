@@ -3,8 +3,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatMessage, CharacterMood } from "../types";
-import { findResponse, generateId } from "../utils/chatUtils";
+import { generateId } from "../utils/chatUtils";
+import { getContextAwareChatResponse } from "../services/chatService";
 import { ArrowUp, Send } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 interface ChatInterfaceProps {
   onMoodChange: (mood: CharacterMood) => void;
@@ -21,6 +23,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
   ]);
   const [inputValue, setInputValue] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { authState } = useAuth();
   
   useEffect(() => {
     scrollToBottom();
@@ -30,7 +33,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (inputValue.trim() === "") return;
     
     const userMessage: ChatMessage = {
@@ -43,20 +46,43 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
     setMessages([...messages, userMessage]);
     setInputValue("");
     
-    // Small delay to simulate thinking
-    setTimeout(() => {
-      const response = findResponse(inputValue);
-      onMoodChange(response.mood);
-      
-      const botMessage: ChatMessage = {
-        id: generateId(),
-        content: response.answer,
+    try {
+      // Show typing indicator
+      const typingMessage: ChatMessage = {
+        id: "typing",
+        content: "Typing...",
         sender: "bot",
         timestamp: new Date()
       };
       
-      setMessages(prev => [...prev, botMessage]);
-    }, 1000);
+      setMessages(prev => [...prev, typingMessage]);
+      
+      // Get contextual response
+      const userId = authState.user?.id || "";
+      const response = await getContextAwareChatResponse(inputValue, userId, messages);
+      
+      // Remove typing indicator and add actual response
+      setMessages(prev => prev.filter(msg => msg.id !== "typing").concat({
+        id: generateId(),
+        content: response.answer,
+        sender: "bot",
+        timestamp: new Date()
+      }));
+      
+      onMoodChange(response.mood);
+    } catch (error) {
+      console.error("Error getting chat response:", error);
+      
+      // Remove typing indicator and add error message
+      setMessages(prev => prev.filter(msg => msg.id !== "typing").concat({
+        id: generateId(),
+        content: "Sorry, I'm having trouble responding right now. Please try again later.",
+        sender: "bot",
+        timestamp: new Date()
+      }));
+      
+      onMoodChange("thinking");
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -79,7 +105,9 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
               className={`inline-block max-w-[80%] px-4 py-2 rounded-lg ${
                 message.sender === "user"
                   ? "bg-primary text-white rounded-tr-none"
-                  : "bg-accent text-foreground rounded-tl-none"
+                  : message.id === "typing"
+                    ? "bg-gray-100 text-gray-500 rounded-tl-none italic"
+                    : "bg-accent text-foreground rounded-tl-none"
               }`}
             >
               {message.content}

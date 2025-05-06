@@ -1,7 +1,8 @@
-
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
 
 const EducationalContent = () => {
   return (
@@ -14,10 +15,11 @@ const EducationalContent = () => {
       </CardHeader>
       <CardContent className="pt-6">
         <Tabs defaultValue="basics">
-          <TabsList className="grid w-full grid-cols-3 mb-4">
+          <TabsList className="grid w-full grid-cols-4 mb-4">
             <TabsTrigger value="basics">Basics</TabsTrigger>
             <TabsTrigger value="hygiene">Hygiene</TabsTrigger>
             <TabsTrigger value="myths">Myth Busting</TabsTrigger>
+            <TabsTrigger value="resources">Resources</TabsTrigger>
           </TabsList>
           
           <TabsContent value="basics" className="space-y-4">
@@ -105,6 +107,48 @@ const EducationalContent = () => {
                 Menstruation is a normal, healthy biological process, not an illness or a source of impurity. 
                 Girls should continue with school, social activities, and daily life.
               </p>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="resources" className="space-y-4">
+            <div>
+              <h3 className="font-medium text-lg mb-2">External Learning Resources</h3>
+              <div className="grid gap-3">
+                <a href="https://www.who.int/health-topics/menstruation" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-secondary/10 rounded-md hover:bg-secondary/20 transition-colors">
+                  <span className="font-medium">World Health Organization - Menstruation</span>
+                  <ExternalLink size={16} />
+                </a>
+                
+                <a href="https://www.unfpa.org/menstruation" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-secondary/10 rounded-md hover:bg-secondary/20 transition-colors">
+                  <span className="font-medium">UNFPA - Menstruation and human rights</span>
+                  <ExternalLink size={16} />
+                </a>
+                
+                <a href="https://www.unicef.org/ethiopia/reports/menstrual-hygiene-management-ethiopia" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-secondary/10 rounded-md hover:bg-secondary/20 transition-colors">
+                  <span className="font-medium">UNICEF Ethiopia - Menstrual hygiene management</span>
+                  <ExternalLink size={16} />
+                </a>
+                
+                <a href="https://www.plan-international.org/sexual-health/menstruation/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-secondary/10 rounded-md hover:bg-secondary/20 transition-colors">
+                  <span className="font-medium">Plan International - Menstrual Health</span>
+                  <ExternalLink size={16} />
+                </a>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="font-medium text-lg mb-2">Local Ethiopian Resources</h3>
+              <div className="grid gap-3">
+                <a href="https://www.lilypad.org.et" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-secondary/10 rounded-md hover:bg-secondary/20 transition-colors">
+                  <span className="font-medium">Lily Pad Ethiopia - Menstrual Health Initiative</span>
+                  <ExternalLink size={16} />
+                </a>
+                
+                <a href="https://www.ethiopianwomen.org" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-secondary/10 rounded-md hover:bg-secondary/20 transition-colors">
+                  <span className="font-medium">Ethiopian Women's Association</span>
+                  <ExternalLink size={16} />
+                </a>
+              </div>
             </div>
           </TabsContent>
         </Tabs>

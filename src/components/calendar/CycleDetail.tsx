@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { CycleData } from "@/types";
 import { saveCycleData, deleteCycleData } from "@/services/cycleService";
 import { toast } from "@/components/ui/sonner";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Smile, Frown, Meh } from "lucide-react";
 
 interface CycleDetailProps {
   date: Date;
@@ -25,6 +27,7 @@ const CycleDetail: React.FC<CycleDetailProps> = ({
   onSave,
 }) => {
   const [symptoms, setSymptoms] = useState<string>(existingData?.symptoms || "");
+  const [mood, setMood] = useState<string>(existingData?.mood || "neutral");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSave = async () => {
@@ -37,6 +40,7 @@ const CycleDetail: React.FC<CycleDetailProps> = ({
         id: existingData?.id,
         startDate: formattedDate,
         symptoms,
+        mood
       });
       
       toast.success("Cycle data saved successfully");
@@ -83,7 +87,25 @@ const CycleDetail: React.FC<CycleDetailProps> = ({
       <CardContent>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="symptoms">Symptoms</Label>
+            <Label htmlFor="mood">How are you feeling?</Label>
+            <ToggleGroup type="single" value={mood} onValueChange={(value) => setMood(value || "neutral")} className="justify-center">
+              <ToggleGroupItem value="happy" aria-label="Happy">
+                <Smile className="h-5 w-5 mr-1" />
+                Good
+              </ToggleGroupItem>
+              <ToggleGroupItem value="neutral" aria-label="Neutral">
+                <Meh className="h-5 w-5 mr-1" />
+                Okay
+              </ToggleGroupItem>
+              <ToggleGroupItem value="sad" aria-label="Sad">
+                <Frown className="h-5 w-5 mr-1" />
+                Not Great
+              </ToggleGroupItem>
+            </ToggleGroup>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="symptoms">Symptoms & Notes</Label>
             <Textarea
               id="symptoms"
               placeholder="Add any symptoms or notes for this day"

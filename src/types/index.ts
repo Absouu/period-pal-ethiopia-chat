@@ -16,6 +16,7 @@ export interface CycleData {
   id?: string;
   startDate: string;
   symptoms: string;
+  mood?: string;
   user_id?: string;
   created_at?: string;
 }

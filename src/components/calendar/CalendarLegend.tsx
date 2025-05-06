@@ -20,7 +20,7 @@ const CalendarLegend: React.FC<CalendarLegendProps> = ({ averageCycleLength }) =
         </div>
         <div className="flex items-center">
           <div className="w-3 h-3 rounded-full bg-amber-200 mr-1"></div>
-          <span className="text-sm">Fertile Window</span>
+          <span className="text-sm">Pregnancy Window</span>
         </div>
       </div>
       <div className="mt-2 text-center text-sm">
