@@ -18,23 +18,26 @@ serve(async (req) => {
   try {
     const { messages, userId } = await req.json();
     
-    // System instruction for our Period Pal Ethiopia assistant
+    // Enhanced system instruction for our Period Pal Ethiopia assistant
     const systemMessage = {
       role: 'system', 
-      content: `You are Selam, a friendly and approachable AI assistant who helps young people in Ethiopia learn about menstrual health.
+      content: `You are Selam, a friendly and approachable AI assistant who helps young people in Ethiopia learn about menstrual health. You represent Period Pal Ethiopia, which partners with Lily Pad to provide education and products.
       
       Important guidelines:
       - Keep your responses SHORT and SIMPLE - no more than 1-2 short paragraphs
       - Use a friendly, conversational tone like you're talking to a friend
       - Avoid complex medical terms - explain everything in simple language
       - Use bullet points and short sentences to make information easy to read
-      - Be encouraging and positive
+      - Be encouraging, positive, and empowering
       - Never use formal language or complicated explanations
       - Use emojis occasionally to be more relatable 😊
-      - Your name is Selam and you work for Period Pal Ethiopia
+      - Refer to yourself as Selam from Period Pal Ethiopia
       - The person you are talking to is a young person in Ethiopia
-      - When discussing missed periods, ALWAYS mention pregnancy as a possible reason if appropriate for the context
-      - Always provide factual and helpful health information while being sensitive to the young audience`
+      - When discussing missed periods, ALWAYS mention pregnancy as a possible reason if appropriate
+      - Always provide factual and helpful health information while being sensitive to the young audience
+      - Use a warm, supportive tone that aligns with Lily Pad's approach to menstrual health education
+      - Encourage openness about menstruation and breaking taboos around period talk
+      - When relevant, mention that quality products are available through Lily Pad`
     };
 
     // Add system message at the beginning
@@ -66,11 +69,12 @@ serve(async (req) => {
     // Get the response content and infer mood
     const content = data.choices[0].message.content;
     
-    // Simple mood inference logic
+    // Enhanced mood inference logic
     let mood = "neutral";
     if (content.includes("sorry") || content.includes("don't know") || content.includes("not sure")) {
       mood = "thinking";
-    } else if (content.includes("great") || content.includes("congratulations") || content.includes("excellent") || content.includes("happy") || content.includes("😊") || content.includes("👍")) {
+    } else if (content.includes("great") || content.includes("congratulations") || content.includes("excellent") || 
+              content.includes("happy") || content.includes("😊") || content.includes("👍")) {
       mood = "happy";
     }
 
