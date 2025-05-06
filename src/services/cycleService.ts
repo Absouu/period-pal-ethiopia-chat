@@ -12,9 +12,10 @@ export const saveCycleData = async (cycleData: CycleData): Promise<CycleData | n
       throw new Error('User not authenticated');
     }
 
-    // Add user_id to the cycle data
-    const dataWithUser = {
-      ...cycleData,
+    // Format data to match database schema (convert startDate to startdate)
+    const dataForDb = {
+      startdate: cycleData.startDate,
+      symptoms: cycleData.symptoms,
       user_id: user.id,
     };
 
@@ -23,7 +24,7 @@ export const saveCycleData = async (cycleData: CycleData): Promise<CycleData | n
       .from('cycles')
       .select('id')
       .eq('user_id', user.id)
-      .eq('startDate', cycleData.startDate)
+      .eq('startdate', cycleData.startDate)
       .single();
 
     if (fetchError && fetchError.code !== 'PGRST116') {
@@ -38,7 +39,7 @@ export const saveCycleData = async (cycleData: CycleData): Promise<CycleData | n
       // Update existing entry
       const result = await supabase
         .from('cycles')
-        .update(dataWithUser)
+        .update(dataForDb)
         .eq('id', existingData.id)
         .select();
       
@@ -48,7 +49,7 @@ export const saveCycleData = async (cycleData: CycleData): Promise<CycleData | n
       // Insert new entry
       const result = await supabase
         .from('cycles')
-        .insert([dataWithUser])
+        .insert(dataForDb)
         .select();
       
       data = result.data;
@@ -66,7 +67,18 @@ export const saveCycleData = async (cycleData: CycleData): Promise<CycleData | n
       throw error;
     }
 
-    return data?.[0] as CycleData;
+    // Transform data from database format back to app format
+    if (data && data.length > 0) {
+      return {
+        id: data[0].id,
+        startDate: data[0].startdate,
+        symptoms: data[0].symptoms || "",
+        user_id: data[0].user_id,
+        created_at: data[0].created_at
+      };
+    }
+    
+    return null;
   } catch (error) {
     console.error('Error saving cycle data:', error);
     return null;
@@ -87,7 +99,7 @@ export const getUserCycleData = async (): Promise<CycleData[]> => {
       .from('cycles')
       .select('*')
       .eq('user_id', user.id)
-      .order('startDate', { ascending: false });
+      .order('startdate', { ascending: false });
 
     if (error) {
       if (error.code === '42P01') {
@@ -98,7 +110,14 @@ export const getUserCycleData = async (): Promise<CycleData[]> => {
       throw error;
     }
 
-    return data as CycleData[];
+    // Transform data from database format to app format
+    return data.map(item => ({
+      id: item.id,
+      startDate: item.startdate,
+      symptoms: item.symptoms || "",
+      user_id: item.user_id,
+      created_at: item.created_at
+    }));
   } catch (error) {
     console.error('Error fetching cycle data:', error);
     return [];
