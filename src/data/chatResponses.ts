@@ -29,7 +29,7 @@ export const chatResponses: ChatResponse[] = [
   },
   {
     keywords: ["irregular", "period", "late", "miss"],
-    answer: "Irregular periods can be caused by stress, weight changes, excessive exercise, hormonal imbalances, or medical conditions. It's common to have irregular periods during the first few years of menstruation and approaching menopause. If you're sexually active and miss a period, take a pregnancy test. Consult a healthcare provider if you frequently miss periods or have concerns.",
+    answer: "Missing a period can happen for several reasons: 📌 Pregnancy 📌 Stress 📌 Weight changes 📌 Too much exercise 📌 Hormonal changes 📌 Medical conditions\n\nIf you're sexually active and miss a period, consider taking a pregnancy test. If you often miss periods or are worried, talk to a trusted adult or healthcare provider. 💜",
     mood: "thinking"
   },
   {
