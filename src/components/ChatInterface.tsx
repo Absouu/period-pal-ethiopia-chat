@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatMessage, CharacterMood } from "../types";
 import { generateId } from "../utils/chatUtils";
-import { Send } from "lucide-react";
+import { Send, ArrowDown, Sparkles } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
 
 interface ChatInterfaceProps {
   onMoodChange: (mood: CharacterMood) => void;
@@ -24,7 +25,9 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const { authState } = useAuth();
   
   const scrollToBottom = useCallback(() => {
@@ -37,6 +40,23 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
+  // Check scroll position to show/hide scroll button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!messagesContainerRef.current) return;
+      
+      const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+      const isScrolledUp = scrollHeight - scrollTop - clientHeight > 60;
+      setShowScrollButton(isScrolledUp);
+    };
+
+    const container = messagesContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+      return () => container.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
+  
   const handleSend = async () => {
     if (inputValue.trim() === "" || isTyping) return;
     
@@ -140,23 +160,28 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
   };
 
   return (
-    <div className="flex flex-col bg-white rounded-lg shadow-md p-4 h-[400px] max-h-[400px]">
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4">
+    <div className="flex flex-col bg-gradient-to-br from-white to-muted rounded-2xl shadow-lg p-4 h-[400px] max-h-[400px] border border-muted relative">
+      <div 
+        ref={messagesContainerRef}
+        className="flex-1 overflow-y-auto mb-4 space-y-2 pr-2 scrollbar-thin scrollbar-thumb-primary/10 scrollbar-track-transparent"
+      >
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`mb-3 ${
+            className={cn(
+              "mb-3 transition-all duration-300 animate-fade-in",
               message.sender === "user" ? "text-right" : "text-left"
-            }`}
+            )}
           >
             <div
-              className={`inline-block max-w-[85%] px-4 py-2 rounded-lg ${
+              className={cn(
+                "inline-block max-w-[85%] px-4 py-2 rounded-2xl shadow-sm",
                 message.sender === "user"
-                  ? "bg-primary text-white rounded-tr-none"
+                  ? "bg-primary text-white rounded-tr-none animate-slide-in-left"
                   : message.id === "typing"
-                    ? "bg-gray-100 text-gray-500 rounded-tl-none italic"
-                    : "bg-accent text-foreground rounded-tl-none"
-              }`}
+                    ? "bg-muted text-gray-500 rounded-tl-none italic"
+                    : "bg-accent text-foreground rounded-tl-none animate-slide-in-right"
+              )}
             >
               <div className="text-md leading-relaxed whitespace-pre-wrap">
                 {message.content}
@@ -167,23 +192,48 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
         <div ref={messagesEndRef} />
       </div>
       
-      <div className="flex items-center space-x-2">
+      {showScrollButton && (
+        <Button
+          size="icon"
+          onClick={scrollToBottom}
+          variant="secondary"
+          className="absolute bottom-20 right-4 rounded-full shadow-md animate-bounce"
+        >
+          <ArrowDown className="h-4 w-4" />
+        </Button>
+      )}
+      
+      <div className="flex items-center space-x-2 bg-white/50 p-2 rounded-xl backdrop-blur-sm border border-accent/20">
         <Input
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ask me anything about periods..."
-          className="flex-1"
+          className="flex-1 bg-white border-muted focus-visible:ring-primary/30 rounded-lg pl-4 py-2 shadow-inner"
           disabled={isTyping}
         />
         <Button
           onClick={handleSend}
           size="icon"
-          className="bg-primary hover:bg-primary/80"
+          className={cn(
+            "bg-primary hover:bg-primary/90 rounded-lg transition-all duration-300 shadow-md",
+            isTyping ? "opacity-50 cursor-not-allowed" : "hover:scale-105"
+          )}
           disabled={isTyping}
         >
-          <Send className="h-4 w-4" />
+          {isTyping ? (
+            <div className="h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></div>
+          ) : (
+            <Send className="h-4 w-4" />
+          )}
         </Button>
+      </div>
+      
+      <div className="mt-2 text-center">
+        <span className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+          <Sparkles className="h-3 w-3 text-primary/70" />
+          Powered by Lily Pad AI
+        </span>
       </div>
     </div>
   );
