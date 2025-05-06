@@ -13,8 +13,23 @@ export interface ChatResponse {
 }
 
 export interface CycleData {
+  id?: string;
   startDate: string;
   symptoms: string;
+  user_id?: string;
+  created_at?: string;
 }
 
 export type CharacterMood = "neutral" | "happy" | "thinking";
+
+export interface User {
+  id: string;
+  email: string;
+  username?: string;
+}
+
+export interface AuthState {
+  user: User | null;
+  session: any | null;
+  isLoading: boolean;
+}
