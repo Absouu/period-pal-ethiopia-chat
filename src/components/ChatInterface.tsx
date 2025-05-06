@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatMessage, CharacterMood } from "../types";
 import { generateId } from "../utils/chatUtils";
-import { ArrowUp, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
@@ -17,7 +17,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
-      content: "Hello! I'm Selam, your menstrual health assistant. What would you like to know about menstrual health?",
+      content: "Hi there! 👋 I'm Selam, your friendly period pal. What would you like to chat about today?",
       sender: "bot",
       timestamp: new Date()
     }
@@ -98,13 +98,13 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
       console.error("Error getting chat response:", error);
       
       // Show error toast
-      toast.error("Sorry, I had trouble connecting. Please try again.");
+      toast.error("Oops! Something went wrong. Please try again.");
       
       // Remove typing indicator and add error message
       setMessages(prev => 
         prev.filter(msg => msg.id !== "typing").concat({
           id: generateId(),
-          content: "Sorry, I'm having trouble responding right now. Please try again in a moment.",
+          content: "Sorry, I can't respond right now. Let's try again in a moment! 😊",
           sender: "bot",
           timestamp: new Date()
         })
@@ -125,7 +125,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
 
   return (
     <div className="flex flex-col bg-white rounded-lg shadow-md p-4 h-[400px] max-h-[400px]">
-      <div className="flex-1 overflow-y-auto mb-4">
+      <div className="flex-1 overflow-y-auto mb-4 space-y-4">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -134,7 +134,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
             }`}
           >
             <div
-              className={`inline-block max-w-[80%] px-4 py-2 rounded-lg ${
+              className={`inline-block max-w-[85%] px-4 py-2 rounded-lg ${
                 message.sender === "user"
                   ? "bg-primary text-white rounded-tr-none"
                   : message.id === "typing"
@@ -142,7 +142,9 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
                     : "bg-accent text-foreground rounded-tl-none"
               }`}
             >
-              {message.content}
+              <div className="text-md leading-relaxed whitespace-pre-wrap">
+                {message.content}
+              </div>
             </div>
           </div>
         ))}
@@ -154,7 +156,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask about menstrual health..."
+          placeholder="Ask me anything about periods..."
           className="flex-1"
           disabled={isTyping}
         />

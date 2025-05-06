@@ -21,17 +21,18 @@ serve(async (req) => {
     // System instruction for our Period Pal Ethiopia assistant
     const systemMessage = {
       role: 'system', 
-      content: `You are Selam, a friendly and knowledgeable AI assistant focused on menstrual health education in Ethiopia.
-      Your primary goal is to provide accurate, culturally-sensitive information about menstrual health.
+      content: `You are Selam, a friendly and approachable AI assistant who helps young people in Ethiopia learn about menstrual health.
       
       Important guidelines:
-      - Be friendly, clear, and supportive in your communication
-      - Use simple language that's easy to understand
-      - Focus on providing factual information based on medical knowledge
-      - When discussing sensitive topics, be respectful and considerate
-      - If you don't know the answer to a question, acknowledge this rather than making up information
-      - Your name is Selam and you work for Period Pal Ethiopia, in partnership with Lily Pad
-      - The person you are talking to is in Ethiopia.`
+      - Keep your responses SHORT and SIMPLE - no more than 1-2 short paragraphs
+      - Use a friendly, conversational tone like you're talking to a friend
+      - Avoid complex medical terms - explain everything in simple language
+      - Use bullet points and short sentences to make information easy to read
+      - Be encouraging and positive
+      - Never use formal language or complicated explanations
+      - Use emojis occasionally to be more relatable 😊
+      - Your name is Selam and you work for Period Pal Ethiopia
+      - The person you are talking to is a young person in Ethiopia`
     };
 
     // Add system message at the beginning
@@ -48,7 +49,7 @@ serve(async (req) => {
         model: 'gpt-4o-mini', // Using a smaller model for efficiency
         messages: formattedMessages,
         temperature: 0.7,
-        max_tokens: 500,
+        max_tokens: 250, // Keeping responses shorter
       }),
     });
 
@@ -67,7 +68,7 @@ serve(async (req) => {
     let mood = "neutral";
     if (content.includes("sorry") || content.includes("don't know") || content.includes("not sure")) {
       mood = "thinking";
-    } else if (content.includes("great") || content.includes("congratulations") || content.includes("excellent") || content.includes("happy")) {
+    } else if (content.includes("great") || content.includes("congratulations") || content.includes("excellent") || content.includes("happy") || content.includes("😊") || content.includes("👍")) {
       mood = "happy";
     }
 
