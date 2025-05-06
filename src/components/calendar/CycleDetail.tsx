@@ -1,0 +1,105 @@
+
+import React, { useState } from 'react';
+import { format } from "date-fns";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { CycleData } from "@/types";
+import { saveCycleData } from "@/services/cycleService";
+import { toast } from "@/components/ui/sonner";
+
+interface CycleDetailProps {
+  date: Date;
+  existingData?: CycleData;
+  isPredicted?: boolean;
+  onClose: () => void;
+  onSave: () => void;
+}
+
+const CycleDetail: React.FC<CycleDetailProps> = ({
+  date,
+  existingData,
+  isPredicted = false,
+  onClose,
+  onSave,
+}) => {
+  const [symptoms, setSymptoms] = useState<string>(existingData?.symptoms || "");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleSave = async () => {
+    setIsLoading(true);
+    
+    try {
+      const formattedDate = format(date, "yyyy-MM-dd");
+      
+      await saveCycleData({
+        startDate: formattedDate,
+        symptoms,
+      });
+      
+      toast.success("Cycle data saved successfully");
+      onSave();
+    } catch (error) {
+      console.error("Error saving cycle data:", error);
+      toast.error("Failed to save cycle data");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteData = () => {
+    // Placeholder for future delete functionality
+    toast.info("Delete functionality will be added soon");
+    onClose();
+  };
+
+  return (
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>
+          {isPredicted ? "Predicted Period" : "Period Details"} - {format(date, "PPP")}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="symptoms">Symptoms</Label>
+            <Textarea
+              id="symptoms"
+              placeholder="Add any symptoms or notes for this day"
+              value={symptoms}
+              onChange={(e) => setSymptoms(e.target.value)}
+              className="min-h-[100px]"
+              disabled={isLoading}
+            />
+          </div>
+          
+          {isPredicted && (
+            <div className="text-sm text-muted-foreground">
+              <p>This is a predicted period date based on your cycle history.</p>
+              <p>You can confirm this date by saving it or update it later.</p>
+            </div>
+          )}
+        </div>
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={onClose} disabled={isLoading}>
+            Cancel
+          </Button>
+          <Button onClick={handleSave} disabled={isLoading}>
+            {isLoading ? "Saving..." : "Save"}
+          </Button>
+        </div>
+        {existingData && !isPredicted && (
+          <Button variant="destructive" onClick={deleteData} disabled={isLoading}>
+            Delete
+          </Button>
+        )}
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default CycleDetail;
