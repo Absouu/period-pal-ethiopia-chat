@@ -1,5 +1,5 @@
 
-import { supabase } from "@/utils/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { CycleData } from "@/types";
 import { toast } from "@/components/ui/sonner";
 
