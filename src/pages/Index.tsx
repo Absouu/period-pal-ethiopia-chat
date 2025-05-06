@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, ShoppingBag } from "lucide-react";
 import CharacterDisplay from "@/components/CharacterDisplay";
 import ChatInterface from "@/components/ChatInterface";
 import EducationalContent from "@/components/EducationalContent";
@@ -38,6 +38,16 @@ const Index = () => {
           <div className="absolute right-0 top-0 flex gap-2">
             {user && (
               <>
+                <Link to="/products">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex items-center gap-1"
+                  >
+                    <ShoppingBag className="w-4 h-4" />
+                    <span className="hidden sm:inline">Products</span>
+                  </Button>
+                </Link>
                 <Link to="/calendar">
                   <Button 
                     variant="outline" 
@@ -87,14 +97,22 @@ const Index = () => {
                 <CycleDataForm />
                 
                 <div className="mt-8 text-center">
-                  <Link to="/calendar" className="inline-flex items-center">
-                    <Button className="flex items-center gap-2">
-                      <CalendarIcon className="w-5 h-5" />
-                      View Full Calendar
-                    </Button>
-                  </Link>
+                  <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <Link to="/calendar" className="inline-flex items-center">
+                      <Button className="flex items-center gap-2 w-full">
+                        <CalendarIcon className="w-5 h-5" />
+                        View Full Calendar
+                      </Button>
+                    </Link>
+                    <Link to="/products" className="inline-flex items-center">
+                      <Button className="flex items-center gap-2 w-full">
+                        <ShoppingBag className="w-5 h-5" />
+                        Browse Products
+                      </Button>
+                    </Link>
+                  </div>
                   <p className="text-xs text-muted-foreground mt-2">
-                    See your complete cycle history and predictions
+                    Track your cycle and access quality menstrual products
                   </p>
                 </div>
               </TabsContent>
@@ -103,7 +121,7 @@ const Index = () => {
         </div>
         
         <footer className="text-center text-sm text-gray-500">
-          <p>© 2025 Period Pal Ethiopia - Educational menstrual health app</p>
+          <p>© 2025 Period Pal Ethiopia - In partnership with Lily Pad</p>
           <p className="mt-1">Your data is securely stored and protected</p>
         </footer>
       </div>
