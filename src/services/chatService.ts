@@ -1,7 +1,5 @@
 
 import { supabase } from "@/integrations/supabase/client";
-import { ChatResponse, ChatMessage } from "@/types";
-import { chatResponses } from "../data/chatResponses";
 
 // Function to determine if a user is near their period date
 export const isNearPeriod = async (userId: string): Promise<boolean> => {
@@ -46,43 +44,4 @@ export const checkLilyPadInventory = async (userId: string): Promise<boolean> =>
     console.error("Error checking Lily Pad inventory:", error);
     return false;
   }
-};
-
-// Enhanced chat response function with context awareness
-export const getContextAwareChatResponse = async (
-  userInput: string,
-  userId: string,
-  previousMessages: ChatMessage[]
-): Promise<ChatResponse> => {
-  const lowercaseInput = userInput.toLowerCase();
-  
-  // Check if near period and has Lily Pad inventory
-  const isPeriodNear = await isNearPeriod(userId);
-  
-  // If period is approaching and Lily Pad has inventory, inform the user
-  if (isPeriodNear && 
-      (lowercaseInput.includes("period") || 
-       lowercaseInput.includes("menstrual") || 
-       lowercaseInput.includes("pad") || 
-       lowercaseInput.includes("supply"))) {
-    return {
-      keywords: [],
-      answer: "I notice your period may be approaching soon. Good news! Lily Pad has supplies available in your area. Would you like information on where to pick them up?",
-      mood: "happy"
-    };
-  }
-  
-  // Basic response lookup from predefined answers
-  for (const response of chatResponses) {
-    if (response.keywords.some(keyword => lowercaseInput.includes(keyword))) {
-      return response;
-    }
-  }
-  
-  // If no predefined answer is found
-  return {
-    keywords: [],
-    answer: "I'm sorry, I don't have an answer for that question yet. Please try asking something about periods, menstrual cycles, pads, or menstrual hygiene.",
-    mood: "thinking"
-  };
 };

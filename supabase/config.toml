@@ -1,1 +1,5 @@
-project_id = "bksakzulantqzfpvysfs"
+
+project_id = "lovable"
+
+[functions.chat-with-selam]
+verify_jwt = true
