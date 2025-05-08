@@ -27,7 +27,8 @@ export const useChat = ({ onMoodChange }: UseChatProps) => {
   
   const { scrollToBottom, checkScroll } = useScrollHandler({ 
     messagesContainerRef, 
-    messagesEndRef 
+    messagesEndRef,
+    messages // Pass messages to trigger auto-scrolling when messages change
   });
   
   const { sendMessageToApi } = useChatApiService({ 
@@ -35,11 +36,6 @@ export const useChat = ({ onMoodChange }: UseChatProps) => {
     t, 
     onMoodChange 
   });
-
-  // Scroll to bottom when messages change
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, scrollToBottom]);
 
   // Set up scroll event listener
   const handleScroll = () => {
@@ -50,6 +46,8 @@ export const useChat = ({ onMoodChange }: UseChatProps) => {
   const handleSendMessage = (inputValue: string) => {
     if (isTyping) return;
     sendMessageToApi(inputValue, messages, setMessages, setIsTyping);
+    // Scroll down immediately when user sends a message
+    setTimeout(scrollToBottom, 100);
   };
 
   return {

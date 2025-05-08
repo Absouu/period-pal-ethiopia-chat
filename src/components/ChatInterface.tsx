@@ -48,6 +48,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
         messages={messages}
         showScrollButton={showScrollButton}
         onScrollToBottom={scrollToBottom}
+        containerRef={messagesContainerRef}
       />
       
       <ChatInputForm 

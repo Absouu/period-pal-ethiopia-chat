@@ -1,5 +1,5 @@
 
-import React, { useRef } from "react";
+import React, { useRef, forwardRef } from "react";
 import { ChatMessage } from "@/types";
 import MessageBubble from "./MessageBubble";
 import { Button } from "@/components/ui/button";
@@ -10,18 +10,23 @@ interface MessageListProps {
   messages: ChatMessage[];
   showScrollButton: boolean;
   onScrollToBottom: () => void;
+  containerRef?: React.RefObject<HTMLDivElement>;
 }
 
 const MessageList: React.FC<MessageListProps> = ({
   messages,
   showScrollButton,
   onScrollToBottom,
+  containerRef,
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="relative flex-1 overflow-hidden mb-4">
-      <ScrollArea className="h-72 pr-4 relative" data-radix-scroll-area-viewport="">
+      <ScrollArea 
+        className="h-72 pr-4 relative" 
+        ref={containerRef as any}
+      >
         <div className="space-y-4 relative">
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
