@@ -18,24 +18,29 @@ const LilyPadLogo: React.FC<LilyPadLogoProps> = ({
     size === "tiny" ? "w-5 h-5" :
     "w-16 h-16";
   
+  const lilyEmoji = "🪷"; // Water lily emoji
+  
   if (withBackground) {
     return (
       <div className={`${sizeClasses} bg-green-100 rounded-full flex items-center justify-center ${className}`}>
-        <img 
-          src="/lovable-uploads/3b21855f-9bdd-481b-b65b-d3f3eefc4bb8.png" 
-          alt="Lilly Pad Logo" 
-          className="w-3/4 h-3/4 object-contain"
-        />
+        <div className="text-4xl">
+          {lilyEmoji}
+        </div>
       </div>
     );
   }
   
   return (
-    <img 
-      src="/lovable-uploads/3b21855f-9bdd-481b-b65b-d3f3eefc4bb8.png" 
-      alt="Lilly Pad Logo" 
-      className={`${sizeClasses} object-contain ${className}`}
-    />
+    <div className={`${sizeClasses} flex items-center justify-center ${className}`}>
+      <div className={
+        size === "large" ? "text-5xl" : 
+        size === "small" ? "text-xl" : 
+        size === "tiny" ? "text-sm" :
+        "text-4xl"
+      }>
+        {lilyEmoji}
+      </div>
+    </div>
   );
 };
 
