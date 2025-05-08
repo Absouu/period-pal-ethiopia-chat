@@ -1,4 +1,3 @@
-
 import React, { useState, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -40,7 +39,7 @@ const Index = () => {
   const { authState, signOut } = useAuth();
   const { user, isLoading } = authState;
   const [activeTab, setActiveTab] = useState<string>("chat");
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   if (isLoading) {
     return (
@@ -157,7 +156,7 @@ const Index = () => {
                         <p className="text-xs text-muted-foreground mt-2">
                           {language === 'en' 
                             ? 'Track your cycle and access quality menstrual products'
-                            : 'የወር አበባዎን ይከታተሉ እና ጥራት ያላቸው የወር አበባ ምርቶችን ይጠቀሙ'}
+                            : 'የወር አበባዎ�� ይከታተሉ እና ጥራት ያላቸው የወር አበባ ምርቶችን ይጠቀሙ'}
                         </p>
                       </div>
                     </>
