@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { Sparkles } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";

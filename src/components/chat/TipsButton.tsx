@@ -49,7 +49,7 @@ const TipsButton: React.FC<TipsButtonProps> = ({ className }) => {
         <DialogContent className="max-w-md bg-gradient-to-br from-purple-50 to-white border-purple-100">
           <DialogHeader>
             <DialogTitle className="text-purple-700">
-              {language === 'en' ? 'Selam\'s Insights' : 'የሰላም ምክሮች'}
+              {language === 'en' ? 'Lilly\'s Insights' : 'የሊሊ ምክሮች'}
             </DialogTitle>
           </DialogHeader>
           

@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,7 +27,6 @@ const products = [
 
 const Products = () => {
   const { authState } = useAuth();
-  const { user } = authState;
   
   const handleAddToCart = (productName: string) => {
     toast.success(`Added ${productName} to cart`);
@@ -118,7 +116,7 @@ const Products = () => {
             </p>
             <Link to="/">
               <Button variant="outline" className="border-green-500 text-green-600 hover:bg-green-50">
-                Chat with Selam
+                Chat with Lilly
               </Button>
             </Link>
           </div>

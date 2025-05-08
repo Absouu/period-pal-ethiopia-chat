@@ -163,7 +163,7 @@ export const useChat = ({ onMoodChange }: UseChatProps) => {
       });
       
       // Call the Supabase Edge Function
-      const responsePromise = supabase.functions.invoke('chat-with-selam', {
+      const responsePromise = supabase.functions.invoke('chat-with-lilly', {
         body: { 
           messages: messageHistory,
           userId: null, // This will be provided by the parent component
