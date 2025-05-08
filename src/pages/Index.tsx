@@ -1,3 +1,4 @@
+
 import React, { useState, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -73,7 +74,7 @@ const Index = () => {
               <div>
                 <h1 className="text-3xl sm:text-4xl font-bold text-primary flex items-center">
                   <LilyPadLogo size="small" className="sm:hidden mr-2" />
-                  {t('header.title')}
+                  Lilly
                 </h1>
                 <p className="text-lg text-gray-600">{t('header.subtitle')}</p>
               </div>

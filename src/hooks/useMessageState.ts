@@ -15,7 +15,9 @@ export const useMessageState = () => {
     const initialMessages: ChatMessage[] = [
       {
         id: "welcome",
-        content: t('chat.welcome'),
+        content: language === 'en' 
+          ? "Hi there! 👋 I'm Lilly, your friendly period pal. What would you like to chat about today?" 
+          : "ሰላም! 👋 እኔ ሊሊ ነኝ፣ ጓደኛዎ የወር አበባ። ዛሬ ስለ ምን መወያየት ይፈልጋሉ?",
         sender: "bot",
         timestamp: new Date(Date.now() - 600000) // 10 minutes ago
       }
@@ -90,12 +92,14 @@ export const useMessageState = () => {
       if (welcomeMessageIndex !== -1) {
         updatedMessages[welcomeMessageIndex] = {
           ...updatedMessages[welcomeMessageIndex],
-          content: t('chat.welcome')
+          content: language === 'en' 
+            ? "Hi there! 👋 I'm Lilly, your friendly period pal. What would you like to chat about today?" 
+            : "ሰላም! 👋 እኔ ሊሊ ነኝ፣ ጓደኛዎ የወር አበባ። ዛሬ ስለ ምን መወያየት ይፈልጋሉ?"
         };
       }
       return updatedMessages;
     });
-  }, [language, t]);
+  }, [language]);
 
   return {
     messages,
@@ -106,4 +110,3 @@ export const useMessageState = () => {
     setShowScrollButton
   };
 };
-

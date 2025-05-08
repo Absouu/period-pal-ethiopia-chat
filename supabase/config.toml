@@ -1,5 +1,6 @@
 
 project_id = "lovable"
 
-[functions.chat-with-selam]
+[functions.chat-with-lilly]
 verify_jwt = true
+
