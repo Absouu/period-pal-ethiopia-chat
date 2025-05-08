@@ -14,7 +14,6 @@ interface MessageListProps {
 
 const MessageList = ({ messages, showScrollButton, onScrollToBottom }: MessageListProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
   
   return (
     <div className="relative flex-1">
@@ -23,7 +22,6 @@ const MessageList = ({ messages, showScrollButton, onScrollToBottom }: MessageLi
       </div>
       
       <div
-        ref={messagesContainerRef}
         className="h-full overflow-y-auto pr-2 pb-4 space-y-1 scrollbar-thin scrollbar-thumb-primary/10 scrollbar-track-transparent"
       >
         {messages.map((message) => (
