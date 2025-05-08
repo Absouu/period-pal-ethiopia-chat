@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import { ChatMessage } from "@/types";
 import MessageBubble from "./MessageBubble";
+import TipsButton from "./TipsButton";
 
 interface MessageListProps {
   messages: ChatMessage[];
@@ -29,6 +30,10 @@ const MessageList = ({ messages, showScrollButton, onScrollToBottom }: MessageLi
 
   return (
     <div className="relative flex-1">
+      <div className="flex justify-between items-center mb-2">
+        <TipsButton className="z-10" />
+      </div>
+      
       <div
         ref={messagesContainerRef}
         className="h-full overflow-y-auto mb-4 space-y-2 pr-2 scrollbar-thin scrollbar-thumb-primary/10 scrollbar-track-transparent"

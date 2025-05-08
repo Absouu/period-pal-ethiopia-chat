@@ -7,6 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useChat } from "@/hooks/useChat";
 import MessageList from "@/components/chat/MessageList";
 import ChatInputForm from "@/components/chat/ChatInputForm";
+import PeriodReminder from "@/components/chat/PeriodReminder";
 
 interface ChatInterfaceProps {
   onMoodChange: (mood: CharacterMood) => void;
@@ -55,6 +56,9 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
           {t('chat.powered')}
         </span>
       </div>
+      
+      {/* Period reminder notification */}
+      <PeriodReminder />
     </div>
   );
 };
