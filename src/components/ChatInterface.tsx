@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { Sparkles } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
@@ -55,8 +54,8 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
         isTyping={isTyping}
       />
       
-      <div className="mt-2 text-center">
-        <span className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+      <div className="mt-4 text-center">
+        <span className="text-xs text-muted-foreground flex items-center justify-center gap-1 footer-text">
           <Sparkles className="h-3 w-3 text-primary/70" />
           <span>{t('chat.powered')}</span>
           <LilyPadLogo size="tiny" withBackground={false} className="ml-1" />

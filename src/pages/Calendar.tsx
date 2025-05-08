@@ -1,4 +1,3 @@
-
 import React from "react";
 import CycleCalendar from "@/components/calendar/CycleCalendar";
 import { useAuth } from "@/context/AuthContext";
@@ -87,12 +86,12 @@ const Calendar = () => {
           </p>
         </div>
         
-        <footer className="text-center text-sm text-gray-500 mt-8 flex flex-col items-center">
-          <div className="flex items-center justify-center mb-2">
+        <footer className="text-center text-sm text-gray-500 mt-8 flex flex-col items-center footer-spacing">
+          <div className="flex items-center justify-center mb-4 footer-text">
             <LilyPadLogo size="tiny" className="mr-2" />
             <p>© 2025 Period Pal Ethiopia - In partnership with Lily Pad</p>
           </div>
-          <p className="mt-1">Your data is securely stored and protected</p>
+          <p className="mt-2 footer-text">Your data is securely stored and protected</p>
         </footer>
       </div>
     </div>

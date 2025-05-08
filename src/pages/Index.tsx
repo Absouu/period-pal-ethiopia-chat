@@ -1,4 +1,3 @@
-
 import React, { useState, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -239,12 +238,12 @@ const Index = () => {
           )}
         </div>
         
-        <footer className="text-center text-sm text-gray-500 flex flex-col items-center">
-          <div className="flex items-center justify-center mb-2">
+        <footer className="text-center text-sm text-gray-500 flex flex-col items-center footer-spacing">
+          <div className="flex items-center justify-center mb-4 footer-text">
             <LilyPadLogo size="tiny" className="mr-2" />
             <p>{t('footer.copyright')}</p>
           </div>
-          <p className="mt-1">{t('footer.privacy')}</p>
+          <p className="mt-2 footer-text">{t('footer.privacy')}</p>
         </footer>
       </div>
     </div>
