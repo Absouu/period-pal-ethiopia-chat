@@ -1,10 +1,9 @@
 
 import React, { useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowDown } from "lucide-react";
 import { ChatMessage } from "@/types";
 import MessageBubble from "./MessageBubble";
-import TipsButton from "./TipsButton";
+import { Button } from "@/components/ui/button";
+import { ArrowDown } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface MessageListProps {
@@ -13,34 +12,32 @@ interface MessageListProps {
   onScrollToBottom: () => void;
 }
 
-const MessageList = ({ messages, showScrollButton, onScrollToBottom }: MessageListProps) => {
+const MessageList: React.FC<MessageListProps> = ({
+  messages,
+  showScrollButton,
+  onScrollToBottom,
+}) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
-  
+
   return (
-    <div className="relative flex-1 flex flex-col h-full">
-      <div className="flex justify-between items-center mb-2">
-        <TipsButton className="z-10" />
-      </div>
-      
-      <ScrollArea 
-        className="flex-1 h-[calc(100%-40px)]"
-        ref={messagesContainerRef as React.RefObject<HTMLDivElement>}
-      >
-        <div className="pr-2 pb-4 space-y-1">
+    <div className="relative flex-1 overflow-hidden mb-4">
+      <ScrollArea className="h-72 pr-4 relative" data-radix-scroll-area-viewport="">
+        <div className="space-y-4 relative">
           {messages.map((message) => (
             <MessageBubble key={message.id} message={message} />
           ))}
+
+          {/* Empty div for scrolling to bottom */}
           <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
-      
+
       {showScrollButton && (
         <Button
           size="icon"
-          onClick={onScrollToBottom}
           variant="secondary"
-          className="absolute bottom-2 right-4 rounded-full shadow-md animate-bounce"
+          className="absolute bottom-2 right-2 rounded-full h-8 w-8 shadow-md"
+          onClick={onScrollToBottom}
         >
           <ArrowDown className="h-4 w-4" />
         </Button>
