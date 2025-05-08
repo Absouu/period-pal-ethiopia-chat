@@ -22,7 +22,7 @@ const LilyPadLogo: React.FC<LilyPadLogoProps> = ({
     return (
       <div className={`${sizeClasses} bg-green-100 rounded-full flex items-center justify-center ${className}`}>
         <img 
-          src="/lovable-uploads/4e2ca6fb-c306-4dec-90ac-184f9a3c299b.png" 
+          src="/lovable-uploads/3b21855f-9bdd-481b-b65b-d3f3eefc4bb8.png" 
           alt="Lilly Pad Logo" 
           className="w-3/4 h-3/4 object-contain"
         />
@@ -32,7 +32,7 @@ const LilyPadLogo: React.FC<LilyPadLogoProps> = ({
   
   return (
     <img 
-      src="/lovable-uploads/4e2ca6fb-c306-4dec-90ac-184f9a3c299b.png" 
+      src="/lovable-uploads/3b21855f-9bdd-481b-b65b-d3f3eefc4bb8.png" 
       alt="Lilly Pad Logo" 
       className={`${sizeClasses} object-contain ${className}`}
     />

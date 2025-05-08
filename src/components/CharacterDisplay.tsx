@@ -16,30 +16,13 @@ const CharacterDisplay: React.FC<CharacterDisplayProps> = ({
     <div className="flex flex-col items-center justify-center">
       <div className="relative w-32 h-32">
         <div className={`mood-indicator mood-${mood}`}>
-          <svg viewBox="0 0 100 100" className="w-full h-full text-primary">
-            <circle cx="50" cy="50" r="45" fill="currentColor" />
-            {mood === "happy" && (
-              <g stroke="white" strokeWidth="3" fill="none">
-                <path d="M30 40 Q45 60 50 40" />
-                <path d="M70 40 Q55 60 50 40" />
-                <path d="M30 65 Q50 85 70 65" strokeLinecap="round" />
-              </g>
-            )}
-            {mood === "neutral" && (
-              <g stroke="white" strokeWidth="3" fill="none">
-                <path d="M30 40 Q45 60 50 40" />
-                <path d="M70 40 Q55 60 50 40" />
-                <path d="M30 70 L70 70" strokeLinecap="round" />
-              </g>
-            )}
-            {mood === "thinking" && (
-              <g stroke="white" strokeWidth="3" fill="none">
-                <path d="M30 40 Q45 60 50 40" />
-                <path d="M70 40 Q55 60 50 40" />
-                <path d="M35 75 Q50 65 65 75" strokeLinecap="round" />
-              </g>
-            )}
-          </svg>
+          <div className="w-full h-full rounded-full bg-primary flex items-center justify-center overflow-hidden">
+            <img 
+              src="/lovable-uploads/3b21855f-9bdd-481b-b65b-d3f3eefc4bb8.png" 
+              alt="Lilly flower" 
+              className="w-3/4 h-3/4 object-contain"
+            />
+          </div>
         </div>
       </div>
       <div className="mt-4 text-center">
