@@ -1,5 +1,5 @@
 
-import React, { useRef, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import { ChatMessage } from "@/types";
 import MessageBubble from "./MessageBubble";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,8 @@ interface MessageListProps {
   showScrollButton: boolean;
   onScrollToBottom: () => void;
   containerRef?: React.RefObject<HTMLDivElement>;
+  messagesEndRef?: React.RefObject<HTMLDivElement>;
+  isTyping?: boolean;
 }
 
 const MessageList: React.FC<MessageListProps> = ({
@@ -18,9 +20,9 @@ const MessageList: React.FC<MessageListProps> = ({
   showScrollButton,
   onScrollToBottom,
   containerRef,
+  messagesEndRef,
+  isTyping = false,
 }) => {
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
   return (
     <div className="relative flex-1 overflow-hidden mb-4">
       <ScrollArea 
@@ -32,8 +34,20 @@ const MessageList: React.FC<MessageListProps> = ({
             <MessageBubble key={message.id} message={message} />
           ))}
 
+          {isTyping && (
+            <MessageBubble 
+              key="typing" 
+              message={{
+                id: "typing",
+                content: "...",
+                sender: "bot",
+                timestamp: new Date()
+              }} 
+            />
+          )}
+
           {/* Empty div for scrolling to bottom */}
-          <div ref={messagesEndRef} />
+          <div ref={messagesEndRef} className="h-1" />
         </div>
       </ScrollArea>
 

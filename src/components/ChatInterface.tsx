@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Sparkles } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { CharacterMood } from "@/types";
@@ -17,17 +17,17 @@ interface ChatInterfaceProps {
 const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
   const { t } = useLanguage();
   const { authState } = useAuth();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   
   const {
     messages,
     isTyping,
     showScrollButton,
-    messagesEndRef,
-    messagesContainerRef,
     scrollToBottom,
     checkScroll,
     handleSendMessage
-  } = useChat({ onMoodChange });
+  } = useChat({ onMoodChange, messagesEndRef, messagesContainerRef });
 
   // Set up scroll event listener
   useEffect(() => {
@@ -49,6 +49,8 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
         showScrollButton={showScrollButton}
         onScrollToBottom={scrollToBottom}
         containerRef={messagesContainerRef}
+        messagesEndRef={messagesEndRef}
+        isTyping={isTyping}
       />
       
       <ChatInputForm 
