@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -49,7 +50,7 @@ const Products = () => {
           
           <div className="flex items-center justify-center mb-2">
             <LilyPadLogo />
-            <h1 className="text-3xl sm:text-4xl font-bold text-green-600 ml-3">Lily Pad Products</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold text-green-600 ml-3">Lilly Pad Products</h1>
           </div>
           <p className="text-lg text-gray-600">Sustainable menstrual pads for everyone</p>
         </header>
@@ -57,13 +58,13 @@ const Products = () => {
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 animate-fade-in">
           <section className="mb-8 text-center max-w-2xl mx-auto">
             <div className="flex items-center justify-center mb-4">
-              <h2 className="text-2xl font-bold text-green-600">About Lily Pad</h2>
+              <h2 className="text-2xl font-bold text-green-600">About Lilly Pad</h2>
               <div className="ml-2">
                 <LilyPadLogo size="small" />
               </div>
             </div>
             <p className="text-gray-600 mb-4">
-              Lily Pad produces affordable, reusable menstrual pads made with high-quality 
+              Lilly Pad produces affordable, reusable menstrual pads made with high-quality 
               materials to ensure comfort, durability, and sustainability. Our mission is to 
               provide access to menstrual products and promote menstrual health education in Ethiopia.
             </p>
@@ -78,10 +79,10 @@ const Products = () => {
                     alt={product.name}
                     className="w-full h-full object-contain transition-transform hover:scale-105"
                   />
-                  {/* Lily Pad watermark */}
+                  {/* Lilly Pad watermark */}
                   <div className="absolute bottom-2 right-2 bg-white/70 rounded-full px-2 py-1 flex items-center">
                     <LilyPadLogo size="tiny" withBackground={false} className="mr-1" />
-                    <span className="text-xs text-green-600 font-semibold">Lily Pad</span>
+                    <span className="text-xs text-green-600 font-semibold">Lilly Pad</span>
                   </div>
                 </div>
                 <CardHeader>
@@ -125,7 +126,7 @@ const Products = () => {
         <footer className="text-center text-sm text-gray-500 mt-8 flex flex-col items-center footer-spacing">
           <div className="flex items-center justify-center mb-4 footer-text">
             <LilyPadLogo size="tiny" className="mr-2" />
-            <p>© 2025 Period Pal Ethiopia - In partnership with Lily Pad</p>
+            <p>© 2025 Period Pal Ethiopia - In partnership with Lilly Pad</p>
           </div>
           <p className="mt-2 footer-text">Your data is securely stored and protected</p>
         </footer>
