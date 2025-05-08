@@ -16,7 +16,7 @@ const products = [
     name: "Reusable Menstrual Pads (3-Pack)",
     description: "Washable, eco-friendly cotton pads that provide 8+ hours of protection",
     price: "₦1,500",
-    image: "/lovable-uploads/224c8481-a45b-423a-a589-a856a80dbe5d.png",
+    image: "/lovable-uploads/6f5c9105-ba8e-4595-9bdb-1e29fcbf5050.png",
     category: "pads"
   },
   {
@@ -24,7 +24,7 @@ const products = [
     name: "Menstrual Cup (Small)",
     description: "Medical-grade silicone cup that can be worn for up to 12 hours",
     price: "₦3,000",
-    image: "https://images.unsplash.com/photo-1622560481320-b2d0836c5f6b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image: "/lovable-uploads/00b8a723-9536-4aa2-b4d5-072d32cde11f.png",
     category: "cups"
   },
   {
@@ -32,7 +32,7 @@ const products = [
     name: "Menstrual Cup (Large)",
     description: "Medical-grade silicone cup that can be worn for up to 12 hours",
     price: "₦3,200",
-    image: "https://images.unsplash.com/photo-1638867525089-2781b3e50887?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image: "/lovable-uploads/0e255ef6-7c39-4733-94ab-f1787d9521ba.png",
     category: "cups"
   },
   {
@@ -40,7 +40,7 @@ const products = [
     name: "Disposable Pads (10-Pack)",
     description: "Biodegradable sanitary pads made from organic cotton",
     price: "₦900",
-    image: "https://images.unsplash.com/photo-1620726990696-3dc074709b13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image: "/lovable-uploads/112e1a19-81ae-4d7a-ad87-924437faffdc.png",
     category: "pads"
   },
   {
@@ -48,7 +48,7 @@ const products = [
     name: "Period Underwear",
     description: "Absorbent, leak-proof underwear that can replace pads and tampons",
     price: "₦2,500",
-    image: "https://images.unsplash.com/photo-1619462729253-539ef3991342?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+    image: "/lovable-uploads/18855015-b6c2-4228-873d-b8b87c9042d7.png",
     category: "underwear"
   }
 ];
@@ -83,10 +83,10 @@ const Products = () => {
           
           <div className="flex items-center justify-center mb-2">
             {/* Lily Pad Logo */}
-            <div className="w-12 h-12 mr-3 bg-primary/20 rounded-full flex items-center justify-center">
-              <span className="text-2xl text-primary">🌸</span>
+            <div className="w-16 h-16 mr-3 bg-green-100 rounded-full flex items-center justify-center">
+              <div className="text-3xl text-green-600 font-cursive">🌸</div>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-primary">Lily Pad Products</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold text-green-600">Lily Pad Products</h1>
           </div>
           <p className="text-lg text-gray-600">Quality menstrual products for everyone</p>
         </header>
@@ -94,9 +94,9 @@ const Products = () => {
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 animate-fade-in">
           <section className="mb-8 text-center max-w-2xl mx-auto">
             <div className="flex items-center justify-center mb-4">
-              <h2 className="text-2xl font-bold">About Lily Pad</h2>
+              <h2 className="text-2xl font-bold text-green-600">About Lily Pad</h2>
               {/* Small Lily Pad icon */}
-              <span className="ml-2 text-xl text-primary">🌸</span>
+              <span className="ml-2 text-xl text-green-600">🌸</span>
             </div>
             <p className="text-gray-600 mb-4">
               Lily Pad works to provide feminine hygiene products and education to women and girls 
@@ -116,27 +116,27 @@ const Products = () => {
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {filteredProducts.map(product => (
                   <Card key={product.id} className="overflow-hidden flex flex-col">
-                    <div className="h-48 overflow-hidden relative">
+                    <div className="h-64 overflow-hidden relative bg-gradient-to-br from-green-50 to-white">
                       <img 
                         src={product.image} 
                         alt={product.name}
-                        className="w-full h-full object-cover transition-transform hover:scale-105"
+                        className="w-full h-full object-contain transition-transform hover:scale-105"
                       />
-                      {/* Small Lily Pad watermark */}
-                      <div className="absolute bottom-2 right-2 bg-white/50 rounded-full p-1">
-                        <span className="text-xs text-primary">🌸 Lily Pad</span>
+                      {/* Lily Pad watermark */}
+                      <div className="absolute bottom-2 right-2 bg-white/70 rounded-full px-2 py-1">
+                        <span className="text-xs text-green-600 font-semibold">🌸 Lily Pad</span>
                       </div>
                     </div>
                     <CardHeader>
-                      <CardTitle>{product.name}</CardTitle>
-                      <CardDescription>{product.price}</CardDescription>
+                      <CardTitle className="text-green-700">{product.name}</CardTitle>
+                      <CardDescription className="font-semibold text-green-600">{product.price}</CardDescription>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <p className="text-muted-foreground">{product.description}</p>
                     </CardContent>
                     <CardFooter>
                       <Button 
-                        className="w-full" 
+                        className="w-full bg-green-600 hover:bg-green-700" 
                         onClick={() => handleAddToCart(product.name)}
                       >
                         <ShoppingBag className="mr-2 h-4 w-4" /> Add to Cart
@@ -148,10 +148,10 @@ const Products = () => {
             </TabsContent>
           </Tabs>
 
-          <div className="mt-12 bg-secondary/30 rounded-lg p-6">
+          <div className="mt-12 bg-green-50 rounded-lg p-6 border border-green-200">
             <div className="flex items-center mb-4">
-              <h3 className="text-xl font-bold">Access Free or Subsidized Products</h3>
-              <span className="ml-2 text-lg text-primary">🌸</span>
+              <h3 className="text-xl font-bold text-green-700">Access Free or Subsidized Products</h3>
+              <span className="ml-2 text-lg text-green-600">🌸</span>
             </div>
             <p className="mb-4">
               Through our partnerships with local organizations, we provide free or subsidized 
@@ -159,7 +159,7 @@ const Products = () => {
               ask Selam for more information.
             </p>
             <Link to="/">
-              <Button variant="outline">
+              <Button variant="outline" className="border-green-500 text-green-600 hover:bg-green-50">
                 Chat with Selam
               </Button>
             </Link>
@@ -168,7 +168,7 @@ const Products = () => {
         
         <footer className="text-center text-sm text-gray-500">
           <div className="flex items-center justify-center mb-2">
-            <span className="text-primary mr-1">🌸</span>
+            <span className="text-green-600 mr-1">🌸</span>
             <p>© 2025 Period Pal Ethiopia - In partnership with Lily Pad</p>
           </div>
           <p className="mt-1">Your data is securely stored and protected</p>
