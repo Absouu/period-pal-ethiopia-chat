@@ -32,10 +32,14 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
   useEffect(() => {
     const container = messagesContainerRef.current;
     if (container) {
-      container.addEventListener("scroll", checkScroll);
-      return () => container.removeEventListener("scroll", checkScroll);
+      // Use the ScrollArea's viewport for scroll events
+      const viewport = container.querySelector('[data-radix-scroll-area-viewport]');
+      if (viewport) {
+        viewport.addEventListener("scroll", checkScroll);
+        return () => viewport.removeEventListener("scroll", checkScroll);
+      }
     }
-  }, [checkScroll]);
+  }, [checkScroll, messagesContainerRef]);
 
   return (
     <div className="flex flex-col bg-gradient-to-br from-white to-muted rounded-2xl shadow-lg p-4 h-[400px] max-h-[400px] border border-muted relative">
