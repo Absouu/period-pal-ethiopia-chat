@@ -1,7 +1,7 @@
 import React, { useState, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar as CalendarIcon, ShoppingBag, LogOut, Menu } from "lucide-react";
+import { Calendar as CalendarIcon, ShoppingBag, LogOut, Menu, Star } from "lucide-react";
 import { CharacterMood } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -110,6 +110,19 @@ const Index = () => {
                 </div>
                 
                 <div className="hidden sm:block">
+                  <Link to="/rewards">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex items-center gap-1"
+                    >
+                      <Star className="w-4 h-4" />
+                      <span>Rewards</span>
+                    </Button>
+                  </Link>
+                </div>
+                
+                <div className="hidden sm:block">
                   <Button 
                     variant="outline" 
                     size="sm" 
@@ -142,6 +155,12 @@ const Index = () => {
                               <div className="flex items-center gap-2">
                                 <CalendarIcon className="w-4 h-4" />
                                 {t('button.calendar')}
+                              </div>
+                            </Link>
+                            <Link to="/rewards" className="block p-2 hover:bg-muted rounded-md">
+                              <div className="flex items-center gap-2">
+                                <Star className="w-4 h-4" />
+                                Rewards
                               </div>
                             </Link>
                             <button 

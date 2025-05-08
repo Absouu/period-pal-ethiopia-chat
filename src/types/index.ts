@@ -34,3 +34,18 @@ export interface AuthState {
   session: any | null;
   isLoading: boolean;
 }
+
+export interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  isUnlocked: boolean;
+  points: number;
+  category: "education" | "tracking" | "community" | "general";
+}
+
+export interface UserRewards {
+  points: number;
+  badges: Badge[];
+}

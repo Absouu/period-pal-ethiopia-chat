@@ -9,6 +9,7 @@ import { LanguageProvider } from "./context/LanguageContext";
 import Index from "./pages/Index";
 import Calendar from "./pages/Calendar";
 import Products from "./pages/Products";
+import Rewards from "./pages/Rewards";
 import NotFound from "./pages/NotFound";
 
 // Create a client
@@ -29,6 +30,7 @@ const App = () => {
                 <Route path="/" element={<Index />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/products" element={<Products />} />
+                <Route path="/rewards" element={<Rewards />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
