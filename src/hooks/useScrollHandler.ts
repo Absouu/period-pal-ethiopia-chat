@@ -29,7 +29,8 @@ export const useScrollHandler = ({
   // Auto-scroll when messages change (new message or typing indicator)
   useEffect(() => {
     if (messages.length > 0) {
-      scrollToBottom();
+      // Use a small timeout to ensure the DOM has updated with the latest messages
+      setTimeout(scrollToBottom, 100);
     }
   }, [messages, scrollToBottom]);
 

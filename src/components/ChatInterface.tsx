@@ -34,10 +34,10 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
     const container = messagesContainerRef.current;
     if (container) {
       // Use the ScrollArea's viewport for scroll events
-      const viewport = container.querySelector('[data-radix-scroll-area-viewport]');
-      if (viewport) {
-        viewport.addEventListener("scroll", checkScroll);
-        return () => viewport.removeEventListener("scroll", checkScroll);
+      const viewportElement = container.querySelector('[data-radix-scroll-area-viewport]');
+      if (viewportElement) {
+        viewportElement.addEventListener("scroll", checkScroll);
+        return () => viewportElement.removeEventListener("scroll", checkScroll);
       }
     }
   }, [checkScroll, messagesContainerRef]);
