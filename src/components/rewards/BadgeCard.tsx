@@ -3,7 +3,7 @@ import React from "react";
 import { Badge as BadgeType } from "@/types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Star, LockIcon } from "lucide-react";
+import { Star, LockIcon, Search } from "lucide-react";
 
 interface BadgeCardProps {
   badge: BadgeType;
@@ -13,7 +13,11 @@ const BadgeCard = ({ badge }: BadgeCardProps) => {
   const { name, description, isUnlocked, points, category } = badge;
   
   return (
-    <Card className={`overflow-hidden h-full flex flex-col transition-all duration-300 ${isUnlocked ? 'card-hover-effect border-primary/30' : 'opacity-70 border-dashed'}`}>
+    <Card className={`overflow-hidden h-full flex flex-col transition-all duration-300 ${
+      isUnlocked 
+        ? 'card-hover-effect border-primary/30 bg-primary/5' 
+        : 'opacity-80 border-dashed bg-muted/50'
+    }`}>
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className={`text-lg ${isUnlocked ? 'text-primary' : 'text-muted-foreground'}`}>
@@ -29,14 +33,19 @@ const BadgeCard = ({ badge }: BadgeCardProps) => {
       </CardHeader>
       <CardContent className="pb-4 flex-grow">
         <div className="flex flex-col items-center justify-center py-4">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-3 ${isUnlocked ? 'bg-primary/10' : 'bg-muted'}`}>
+          <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-4 ${
+            isUnlocked 
+              ? 'bg-primary/20' 
+              : 'bg-muted'
+          }`}>
             {isUnlocked ? (
-              <div className="text-3xl text-primary">
-                {badge.icon === 'star' && <Star className="w-8 h-8" />}
-                {badge.icon !== 'star' && <span>{badge.icon}</span>}
+              <div className="text-4xl text-primary">
+                {badge.icon === 'star' && <Star className="w-12 h-12" />}
+                {badge.icon === '🔍' && <Search className="w-12 h-12" />}
+                {badge.icon !== 'star' && badge.icon !== '🔍' && <span className="text-4xl">{badge.icon}</span>}
               </div>
             ) : (
-              <LockIcon className="w-6 h-6 text-muted-foreground" />
+              <LockIcon className="w-10 h-10 text-muted-foreground" />
             )}
           </div>
           <p className="text-sm text-center text-muted-foreground">
@@ -44,7 +53,7 @@ const BadgeCard = ({ badge }: BadgeCardProps) => {
           </p>
         </div>
       </CardContent>
-      <CardFooter className={`bg-muted/30 text-xs ${isUnlocked ? 'text-primary' : 'text-muted-foreground'}`}>
+      <CardFooter className={`bg-muted/50 text-xs ${isUnlocked ? 'text-primary' : 'text-muted-foreground'}`}>
         {isUnlocked ? "Achieved" : "Continue using Period Pal to unlock"}
       </CardFooter>
     </Card>
