@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import { ChatMessage } from "@/types";
@@ -16,18 +16,6 @@ const MessageList = ({ messages, showScrollButton, onScrollToBottom }: MessageLi
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   
-  useEffect(() => {
-    if (messagesContainerRef.current) {
-      const handleScroll = () => {
-        // Scroll handling logic is now in the parent component
-      };
-      
-      const container = messagesContainerRef.current;
-      container.addEventListener("scroll", handleScroll);
-      return () => container.removeEventListener("scroll", handleScroll);
-    }
-  }, []);
-
   return (
     <div className="relative flex-1">
       <div className="flex justify-between items-center mb-2">
