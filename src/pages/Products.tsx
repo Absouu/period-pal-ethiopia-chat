@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -15,7 +16,7 @@ const products = [
     name: "Reusable Menstrual Pads (3-Pack)",
     description: "Washable, eco-friendly cotton pads that provide 8+ hours of protection",
     price: "₦1,500",
-    image: "/lovable-uploads/6f5c9105-ba8e-4595-9bdb-1e29fcbf5050.png",
+    image: "/lovable-uploads/1a7acef7-55d7-4362-9df5-e8453023e094.png",
     category: "pads"
   },
   {
