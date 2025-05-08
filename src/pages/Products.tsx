@@ -9,14 +9,14 @@ import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
 import LilyPadLogo from "@/components/LilyPadLogo";
 
-// Product data with updated images
+// Product data with updated images - all using the same product image
 const products = [
   {
     id: 1,
     name: "Reusable Menstrual Pads (3-Pack)",
     description: "Washable, eco-friendly cotton pads that provide 8+ hours of protection",
     price: "₦1,500",
-    image: "/lovable-uploads/1a7acef7-55d7-4362-9df5-e8453023e094.png",
+    image: "/lovable-uploads/7fcfc8f5-cb3c-4177-8572-98fb751a70c4.png",
     category: "pads"
   },
   {
@@ -24,7 +24,7 @@ const products = [
     name: "Menstrual Cup (Small)",
     description: "Medical-grade silicone cup that can be worn for up to 12 hours",
     price: "₦3,000",
-    image: "/lovable-uploads/00b8a723-9536-4aa2-b4d5-072d32cde11f.png",
+    image: "/lovable-uploads/7fcfc8f5-cb3c-4177-8572-98fb751a70c4.png",
     category: "cups"
   },
   {
@@ -32,7 +32,7 @@ const products = [
     name: "Menstrual Cup (Large)",
     description: "Medical-grade silicone cup that can be worn for up to 12 hours",
     price: "₦3,200",
-    image: "/lovable-uploads/0e255ef6-7c39-4733-94ab-f1787d9521ba.png",
+    image: "/lovable-uploads/7fcfc8f5-cb3c-4177-8572-98fb751a70c4.png",
     category: "cups"
   },
   {
@@ -40,7 +40,7 @@ const products = [
     name: "Disposable Pads (10-Pack)",
     description: "Biodegradable sanitary pads made from organic cotton",
     price: "₦900",
-    image: "/lovable-uploads/112e1a19-81ae-4d7a-ad87-924437faffdc.png",
+    image: "/lovable-uploads/7fcfc8f5-cb3c-4177-8572-98fb751a70c4.png",
     category: "pads"
   },
   {
@@ -48,7 +48,7 @@ const products = [
     name: "Period Underwear",
     description: "Absorbent, leak-proof underwear that can replace pads and tampons",
     price: "₦2,500",
-    image: "/lovable-uploads/18855015-b6c2-4228-873d-b8b87c9042d7.png",
+    image: "/lovable-uploads/7fcfc8f5-cb3c-4177-8572-98fb751a70c4.png",
     category: "underwear"
   }
 ];
