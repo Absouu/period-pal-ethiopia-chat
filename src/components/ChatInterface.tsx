@@ -9,16 +9,18 @@ import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ChatInterfaceProps {
   onMoodChange: (mood: CharacterMood) => void;
 }
 
 const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
+  const { t, language } = useLanguage();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "welcome",
-      content: "Hi there! 👋 I'm Selam, your friendly period pal. What would you like to chat about today?",
+      content: t('chat.welcome'),
       sender: "bot",
       timestamp: new Date()
     }
@@ -29,6 +31,22 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const { authState } = useAuth();
+  
+  // Update welcome message when language changes
+  useEffect(() => {
+    setMessages(prevMessages => {
+      // Find the welcome message and update its content
+      const updatedMessages = [...prevMessages];
+      const welcomeMessageIndex = updatedMessages.findIndex(msg => msg.id === "welcome");
+      if (welcomeMessageIndex !== -1) {
+        updatedMessages[welcomeMessageIndex] = {
+          ...updatedMessages[welcomeMessageIndex],
+          content: t('chat.welcome')
+        };
+      }
+      return updatedMessages;
+    });
+  }, [language, t]);
   
   const scrollToBottom = useCallback(() => {
     if (messagesEndRef.current) {
@@ -77,7 +95,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
         ...prev, 
         {
           id: "typing",
-          content: "Typing...",
+          content: t('chat.typing'),
           sender: "bot",
           timestamp: new Date()
         }
@@ -101,7 +119,8 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
       const responsePromise = supabase.functions.invoke('chat-with-selam', {
         body: { 
           messages: messageHistory,
-          userId: authState.user?.id || null
+          userId: authState.user?.id || null,
+          language: language
         }
       });
       
@@ -140,7 +159,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
       setMessages(prev => 
         prev.filter(msg => msg.id !== "typing").concat({
           id: generateId(),
-          content: "Sorry, I can't respond right now. Let's try again in a moment! 😊",
+          content: t('chat.error'),
           sender: "bot",
           timestamp: new Date()
         })
@@ -208,7 +227,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask me anything about periods..."
+          placeholder={t('chat.placeholder')}
           className="flex-1 bg-white border-muted focus-visible:ring-primary/30 rounded-lg pl-4 py-2 shadow-inner"
           disabled={isTyping}
         />
@@ -232,7 +251,7 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
       <div className="mt-2 text-center">
         <span className="text-xs text-muted-foreground flex items-center justify-center gap-1">
           <Sparkles className="h-3 w-3 text-primary/70" />
-          Powered by Lily Pad AI
+          {t('chat.powered')}
         </span>
       </div>
     </div>

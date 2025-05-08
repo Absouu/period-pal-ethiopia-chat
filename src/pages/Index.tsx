@@ -8,6 +8,8 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 
 // Lazy-loaded components
 const CharacterDisplay = lazy(() => import("@/components/CharacterDisplay"));
@@ -38,6 +40,7 @@ const Index = () => {
   const { authState, signOut } = useAuth();
   const { user, isLoading } = authState;
   const [activeTab, setActiveTab] = useState<string>("chat");
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
@@ -57,10 +60,12 @@ const Index = () => {
     <div className="min-h-screen bg-muted py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <header className="mb-8 text-center relative">
-          <h1 className="text-3xl sm:text-4xl font-bold text-primary">Period Pal Ethiopia</h1>
-          <p className="text-lg text-gray-600">Your friendly menstrual health companion</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-primary">{t('header.title')}</h1>
+          <p className="text-lg text-gray-600">{t('header.subtitle')}</p>
           
-          <div className="absolute right-0 top-0 flex gap-2">
+          <div className="absolute right-0 top-0 flex gap-2 items-center">
+            <LanguageToggle />
+            
             {user && (
               <>
                 <Link to="/products">
@@ -70,7 +75,7 @@ const Index = () => {
                     className="flex items-center gap-1"
                   >
                     <ShoppingBag className="w-4 h-4" />
-                    <span className="hidden sm:inline">Products</span>
+                    <span className="hidden sm:inline">{t('button.products')}</span>
                   </Button>
                 </Link>
                 <Link to="/calendar">
@@ -80,7 +85,7 @@ const Index = () => {
                     className="flex items-center gap-1"
                   >
                     <CalendarIcon className="w-4 h-4" />
-                    <span className="hidden sm:inline">Calendar</span>
+                    <span className="hidden sm:inline">{t('button.calendar')}</span>
                   </Button>
                 </Link>
                 <Button 
@@ -90,7 +95,7 @@ const Index = () => {
                   className="flex items-center gap-1"
                 >
                   <LogOut className="w-4 h-4" />
-                  <span className="hidden sm:inline">Sign Out</span>
+                  <span className="hidden sm:inline">{t('button.signOut')}</span>
                 </Button>
               </>
             )}
@@ -109,9 +114,9 @@ const Index = () => {
           ) : (
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-4">
               <TabsList className="grid w-full grid-cols-3 mb-6">
-                <TabsTrigger value="chat">Chat with Selam</TabsTrigger>
-                <TabsTrigger value="learn">Learn More</TabsTrigger>
-                <TabsTrigger value="track">Track Cycle</TabsTrigger>
+                <TabsTrigger value="chat">{t('tabs.chat')}</TabsTrigger>
+                <TabsTrigger value="learn">{t('tabs.learn')}</TabsTrigger>
+                <TabsTrigger value="track">{t('tabs.track')}</TabsTrigger>
               </TabsList>
               
               <TabsContent value="chat" className="focus:outline-none">
@@ -139,18 +144,20 @@ const Index = () => {
                           <Link to="/calendar" className="inline-flex items-center">
                             <Button className="flex items-center gap-2 w-full">
                               <CalendarIcon className="w-5 h-5" />
-                              View Full Calendar
+                              {t('button.calendar')}
                             </Button>
                           </Link>
                           <Link to="/products" className="inline-flex items-center">
                             <Button className="flex items-center gap-2 w-full">
                               <ShoppingBag className="w-5 h-5" />
-                              Browse Products
+                              {t('button.products')}
                             </Button>
                           </Link>
                         </div>
                         <p className="text-xs text-muted-foreground mt-2">
-                          Track your cycle and access quality menstrual products
+                          {language === 'en' 
+                            ? 'Track your cycle and access quality menstrual products'
+                            : 'የወር አበባዎን ይከታተሉ እና ጥራት ያላቸው የወር አበባ ምርቶችን ይጠቀሙ'}
                         </p>
                       </div>
                     </>
@@ -162,8 +169,8 @@ const Index = () => {
         </div>
         
         <footer className="text-center text-sm text-gray-500">
-          <p>© 2025 Period Pal Ethiopia - In partnership with Lily Pad</p>
-          <p className="mt-1">Your data is securely stored and protected</p>
+          <p>{t('footer.copyright')}</p>
+          <p className="mt-1">{t('footer.privacy')}</p>
         </footer>
       </div>
     </div>
