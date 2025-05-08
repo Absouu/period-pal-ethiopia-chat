@@ -1,3 +1,4 @@
+
 import React, { useState, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,6 +10,15 @@ import { LogOut } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 // Lazy-loaded components
 const CharacterDisplay = lazy(() => import("@/components/CharacterDisplay"));
@@ -58,45 +68,99 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-muted py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        <header className="mb-8 text-center relative">
-          <h1 className="text-3xl sm:text-4xl font-bold text-primary">{t('header.title')}</h1>
-          <p className="text-lg text-gray-600">{t('header.subtitle')}</p>
-          
-          <div className="absolute right-0 top-0 flex gap-2 items-center">
-            <LanguageToggle />
+        <header className="mb-8 relative">
+          <div className="flex flex-col sm:flex-row justify-between items-center">
+            <div className="text-center sm:text-left mb-4 sm:mb-0">
+              <h1 className="text-3xl sm:text-4xl font-bold text-primary">{t('header.title')}</h1>
+              <p className="text-lg text-gray-600">{t('header.subtitle')}</p>
+            </div>
             
             {user && (
-              <>
-                <Link to="/products">
+              <div className="flex flex-wrap justify-center sm:justify-end gap-2">
+                <LanguageToggle />
+                
+                <div className="hidden sm:block">
+                  <Link to="/products">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex items-center gap-1"
+                    >
+                      <ShoppingBag className="w-4 h-4" />
+                      <span>{t('button.products')}</span>
+                    </Button>
+                  </Link>
+                </div>
+                
+                <div className="hidden sm:block">
+                  <Link to="/calendar">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex items-center gap-1"
+                    >
+                      <CalendarIcon className="w-4 h-4" />
+                      <span>{t('button.calendar')}</span>
+                    </Button>
+                  </Link>
+                </div>
+                
+                <div className="hidden sm:block">
                   <Button 
                     variant="outline" 
                     size="sm" 
+                    onClick={signOut}
                     className="flex items-center gap-1"
                   >
-                    <ShoppingBag className="w-4 h-4" />
-                    <span className="hidden sm:inline">{t('button.products')}</span>
+                    <LogOut className="w-4 h-4" />
+                    <span>{t('button.signOut')}</span>
                   </Button>
-                </Link>
-                <Link to="/calendar">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="flex items-center gap-1"
-                  >
-                    <CalendarIcon className="w-4 h-4" />
-                    <span className="hidden sm:inline">{t('button.calendar')}</span>
-                  </Button>
-                </Link>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={signOut}
-                  className="flex items-center gap-1"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span className="hidden sm:inline">{t('button.signOut')}</span>
-                </Button>
-              </>
+                </div>
+                
+                {/* Mobile navigation menu */}
+                <div className="sm:hidden">
+                  <NavigationMenu>
+                    <NavigationMenuList>
+                      <NavigationMenuItem>
+                        <NavigationMenuTrigger className="bg-white">
+                          {t('navigation.menu')}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent>
+                          <div className="w-[200px] bg-white p-2 rounded-md shadow-md">
+                            <Link to="/products" className="block p-2 hover:bg-muted rounded-md">
+                              <div className="flex items-center gap-2">
+                                <ShoppingBag className="w-4 h-4" />
+                                {t('button.products')}
+                              </div>
+                            </Link>
+                            <Link to="/calendar" className="block p-2 hover:bg-muted rounded-md">
+                              <div className="flex items-center gap-2">
+                                <CalendarIcon className="w-4 h-4" />
+                                {t('button.calendar')}
+                              </div>
+                            </Link>
+                            <button 
+                              onClick={signOut}
+                              className="w-full text-left p-2 hover:bg-muted rounded-md"
+                            >
+                              <div className="flex items-center gap-2">
+                                <LogOut className="w-4 h-4" />
+                                {t('button.signOut')}
+                              </div>
+                            </button>
+                          </div>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    </NavigationMenuList>
+                  </NavigationMenu>
+                </div>
+              </div>
+            )}
+            
+            {!user && (
+              <div className="flex items-center">
+                <LanguageToggle />
+              </div>
             )}
           </div>
         </header>
