@@ -24,7 +24,7 @@ const MessageList = ({ messages, showScrollButton, onScrollToBottom }: MessageLi
       
       <div
         ref={messagesContainerRef}
-        className="h-full overflow-y-auto mb-4 space-y-2 pr-2 scrollbar-thin scrollbar-thumb-primary/10 scrollbar-track-transparent"
+        className="h-full overflow-y-auto pr-2 pb-4 space-y-1 scrollbar-thin scrollbar-thumb-primary/10 scrollbar-track-transparent"
       >
         {messages.map((message) => (
           <MessageBubble key={message.id} message={message} />

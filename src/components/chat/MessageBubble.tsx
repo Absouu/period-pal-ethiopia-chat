@@ -16,19 +16,19 @@ const MessageBubble = ({ message }: MessageBubbleProps) => {
   return (
     <div
       className={cn(
-        "mb-3 transition-all duration-300 animate-fade-in",
+        "mb-4 transition-all duration-300 animate-fade-in relative",
         message.sender === "user" ? "text-right" : "text-left"
       )}
     >
       <div className="flex flex-col">
         <div
           className={cn(
-            "inline-block max-w-[85%] px-4 py-2 rounded-2xl shadow-sm",
+            "inline-block max-w-[85%] px-4 py-3 rounded-2xl shadow-sm",
             message.sender === "user"
-              ? "bg-primary text-white rounded-tr-none animate-slide-in-left"
+              ? "bg-primary text-white rounded-tr-none ml-auto animate-slide-in-left"
               : message.id === "typing"
-                ? "bg-muted text-gray-500 rounded-tl-none italic"
-                : "bg-accent text-foreground rounded-tl-none animate-slide-in-right"
+                ? "bg-muted text-gray-500 rounded-tl-none"
+                : "bg-blue-100 text-foreground rounded-tl-none animate-slide-in-right"
           )}
         >
           <div className="text-md leading-relaxed whitespace-pre-wrap">
@@ -36,7 +36,7 @@ const MessageBubble = ({ message }: MessageBubbleProps) => {
           </div>
         </div>
         
-        {/* Timestamp */}
+        {/* Timestamp - positioned below the bubble */}
         <div 
           className={cn(
             "text-xs mt-1 text-gray-500",
