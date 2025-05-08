@@ -27,8 +27,8 @@ const PeriodReminder: React.FC = () => {
   }, []);
 
   const reminderText = {
-    en: "Your period is expected to start in 3 days. Don't forget to stock up on your favorite sustainable pads!",
-    am: "የወር አበባዎ በ3 ቀናት ውስጥ እንደሚጀምር ይጠበቃል። የሚወዷቸውን ዘላቂ ፓዶችን ማከማቸትዎን አይርሱ!"
+    en: "Your period is expected to start in 3 days. Remember to wash and prepare your reusable pads for your next cycle!",
+    am: "የወር አበባዎ በ3 ቀናት ውስጥ እንደሚጀምር ይጠበቃል። ለሚቀጥለው ዑደትዎ እንደገና ሊጠቀሙበት የሚችሉትን ፓዶችዎን ማጠብና ማዘጋጀትዎን አይርሱ!"
   };
 
   const titleText = {
