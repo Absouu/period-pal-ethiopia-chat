@@ -8,6 +8,7 @@ import { useChat } from "@/hooks/useChat";
 import MessageList from "@/components/chat/MessageList";
 import ChatInputForm from "@/components/chat/ChatInputForm";
 import PeriodReminder from "@/components/chat/PeriodReminder";
+import LilyPadLogo from "@/components/LilyPadLogo";
 
 interface ChatInterfaceProps {
   onMoodChange: (mood: CharacterMood) => void;
@@ -57,7 +58,8 @@ const ChatInterface = ({ onMoodChange }: ChatInterfaceProps) => {
       <div className="mt-2 text-center">
         <span className="text-xs text-muted-foreground flex items-center justify-center gap-1">
           <Sparkles className="h-3 w-3 text-primary/70" />
-          {t('chat.powered')}
+          <span>{t('chat.powered')}</span>
+          <LilyPadLogo size="tiny" withBackground={false} className="ml-1" />
         </span>
       </div>
       

@@ -1,13 +1,12 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ShoppingBag, ChevronLeft, Package } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
+import LilyPadLogo from "@/components/LilyPadLogo";
 
 // Product data with updated images
 const products = [
@@ -66,21 +65,6 @@ const Products = () => {
     toast.success(`Added ${productName} to cart`);
   };
 
-  // Logo component for consistent use throughout the app
-  const LilyPadLogo = ({ size = "normal" }) => {
-    const sizeClasses = size === "large" ? "w-20 h-20" : size === "small" ? "w-8 h-8" : "w-16 h-16";
-    
-    return (
-      <div className={`${sizeClasses} bg-green-100 rounded-full flex items-center justify-center`}>
-        <img 
-          src="/lovable-uploads/224c8481-a45b-423a-a589-a856a80dbe5d.png" 
-          alt="Lily Pad Logo" 
-          className="w-3/4 h-3/4 object-contain"
-        />
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-muted py-8 px-4">
       <div className="max-w-4xl mx-auto">
@@ -97,7 +81,6 @@ const Products = () => {
           </Link>
           
           <div className="flex items-center justify-center mb-2">
-            {/* Lily Pad Logo */}
             <LilyPadLogo />
             <h1 className="text-3xl sm:text-4xl font-bold text-green-600 ml-3">Lily Pad Products</h1>
           </div>
@@ -108,7 +91,6 @@ const Products = () => {
           <section className="mb-8 text-center max-w-2xl mx-auto">
             <div className="flex items-center justify-center mb-4">
               <h2 className="text-2xl font-bold text-green-600">About Lily Pad</h2>
-              {/* Small Lily Pad Logo */}
               <div className="ml-2">
                 <LilyPadLogo size="small" />
               </div>
@@ -139,11 +121,7 @@ const Products = () => {
                       />
                       {/* Lily Pad watermark */}
                       <div className="absolute bottom-2 right-2 bg-white/70 rounded-full px-2 py-1 flex items-center">
-                        <img 
-                          src="/lovable-uploads/224c8481-a45b-423a-a589-a856a80dbe5d.png" 
-                          alt="Lily Pad Logo" 
-                          className="w-4 h-4 mr-1"
-                        />
+                        <LilyPadLogo size="tiny" withBackground={false} className="mr-1" />
                         <span className="text-xs text-green-600 font-semibold">Lily Pad</span>
                       </div>
                     </div>
@@ -190,11 +168,7 @@ const Products = () => {
         
         <footer className="text-center text-sm text-gray-500">
           <div className="flex items-center justify-center mb-2">
-            <img 
-              src="/lovable-uploads/224c8481-a45b-423a-a589-a856a80dbe5d.png" 
-              alt="Lily Pad Logo" 
-              className="w-5 h-5 mr-2"
-            />
+            <LilyPadLogo size="tiny" className="mr-2" />
             <p>© 2025 Period Pal Ethiopia - In partnership with Lily Pad</p>
           </div>
           <p className="mt-1">Your data is securely stored and protected</p>

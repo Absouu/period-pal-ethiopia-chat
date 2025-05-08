@@ -2,14 +2,14 @@
 import React, { useState, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar as CalendarIcon, ShoppingBag } from "lucide-react";
+import { Calendar as CalendarIcon, ShoppingBag, LogOut, Menu } from "lucide-react";
 import { CharacterMood } from "@/types";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageToggle from "@/components/LanguageToggle";
+import LilyPadLogo from "@/components/LilyPadLogo";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,7 +17,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
 // Lazy-loaded components
@@ -70,9 +69,15 @@ const Index = () => {
       <div className="max-w-4xl mx-auto">
         <header className="mb-8 relative">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <div className="text-center sm:text-left mb-4 sm:mb-0">
-              <h1 className="text-3xl sm:text-4xl font-bold text-primary">{t('header.title')}</h1>
-              <p className="text-lg text-gray-600">{t('header.subtitle')}</p>
+            <div className="text-center sm:text-left mb-4 sm:mb-0 flex items-center">
+              <LilyPadLogo className="hidden sm:flex mr-3" />
+              <div>
+                <h1 className="text-3xl sm:text-4xl font-bold text-primary flex items-center">
+                  <LilyPadLogo size="small" className="sm:hidden mr-2" />
+                  {t('header.title')}
+                </h1>
+                <p className="text-lg text-gray-600">{t('header.subtitle')}</p>
+              </div>
             </div>
             
             {user && (
@@ -123,6 +128,7 @@ const Index = () => {
                     <NavigationMenuList>
                       <NavigationMenuItem>
                         <NavigationMenuTrigger className="bg-white">
+                          <Menu className="w-4 h-4 mr-1" />
                           {t('navigation.menu')}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
@@ -167,7 +173,9 @@ const Index = () => {
         
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
           <Suspense fallback={<CharacterSkeleton />}>
-            <CharacterDisplay mood={characterMood} />
+            <div className="flex items-center justify-center">
+              <CharacterDisplay mood={characterMood} />
+            </div>
           </Suspense>
           
           {!user ? (
@@ -220,7 +228,7 @@ const Index = () => {
                         <p className="text-xs text-muted-foreground mt-2">
                           {language === 'en' 
                             ? 'Track your cycle and access quality menstrual products'
-                            : 'የወር አበባዎ�� ይከታተሉ እና ጥራት ያላቸው የወር አበባ ምርቶችን ይጠቀሙ'}
+                            : 'የወር አበባዎን ይከታተሉ እና ጥራት ያላቸው የወር አበባ ምርቶችን ይጠቀሙ'}
                         </p>
                       </div>
                     </>
@@ -231,8 +239,11 @@ const Index = () => {
           )}
         </div>
         
-        <footer className="text-center text-sm text-gray-500">
-          <p>{t('footer.copyright')}</p>
+        <footer className="text-center text-sm text-gray-500 flex flex-col items-center">
+          <div className="flex items-center justify-center mb-2">
+            <LilyPadLogo size="tiny" className="mr-2" />
+            <p>{t('footer.copyright')}</p>
+          </div>
           <p className="mt-1">{t('footer.privacy')}</p>
         </footer>
       </div>
