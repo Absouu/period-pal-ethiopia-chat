@@ -23,33 +23,63 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [authState, setAuthState] = useState<AuthState>(initialState);
 
   useEffect(() => {
-    const fetchSession = async () => {
+    const setupAuth = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
+        // Set up the auth state listener first
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+          (event, session) => {
+            console.log('Auth state changed:', event, session ? 'session exists' : 'no session');
+            
+            if (session) {
+              setAuthState({
+                session,
+                user: session.user ? {
+                  id: session.user.id,
+                  email: session.user.email || '',
+                } : null,
+                isLoading: false,
+              });
+            } else if (event === 'SIGNED_OUT') {
+              setAuthState({
+                user: null,
+                session: null,
+                isLoading: false,
+              });
+            }
+          }
+        );
+
+        // Then check for existing session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
         
-        if (error) {
-          console.error('Error fetching session:', error);
-          return;
+        if (sessionError) {
+          console.error('Error getting session:', sessionError);
+          throw sessionError;
         }
 
         if (session) {
-          const { data: { user } } = await supabase.auth.getUser();
+          console.log('Existing session found');
           setAuthState({
             session,
-            user: user ? {
-              id: user.id,
-              email: user.email || '',
+            user: session.user ? {
+              id: session.user.id,
+              email: session.user.email || '',
             } : null,
             isLoading: false,
           });
         } else {
+          console.log('No existing session');
           setAuthState({
             ...initialState,
             isLoading: false,
           });
         }
+
+        return () => {
+          subscription.unsubscribe();
+        };
       } catch (error) {
-        console.error('Session fetch error:', error);
+        console.error('Auth setup error:', error);
         setAuthState({
           ...initialState,
           isLoading: false,
@@ -57,33 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
 
-    fetchSession();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (session && event === 'SIGNED_IN') {
-          const { data: { user } } = await supabase.auth.getUser();
-          setAuthState({
-            session,
-            user: user ? {
-              id: user.id,
-              email: user.email || '',
-            } : null,
-            isLoading: false,
-          });
-        } else if (event === 'SIGNED_OUT') {
-          setAuthState({
-            user: null,
-            session: null,
-            isLoading: false,
-          });
-        }
-      }
-    );
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
+    setupAuth();
   }, []);
 
   const signIn = async (email: string, password: string) => {

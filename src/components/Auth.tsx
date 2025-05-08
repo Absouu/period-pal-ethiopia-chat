@@ -28,8 +28,15 @@ const Auth = () => {
       }
     } catch (error) {
       console.error("Authentication error:", error);
+      // Toast is already handled in the auth context
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent, action: "signin" | "signup") => {
+    if (e.key === 'Enter') {
+      handleAuth(action);
     }
   };
 
@@ -55,6 +62,8 @@ const Auth = () => {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e, "signin")}
+                  autoComplete="email"
                 />
               </div>
               <div className="space-y-2">
@@ -63,6 +72,8 @@ const Auth = () => {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e, "signin")}
+                  autoComplete="current-password"
                 />
               </div>
             </CardContent>
@@ -84,6 +95,8 @@ const Auth = () => {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e, "signup")}
+                  autoComplete="email"
                 />
               </div>
               <div className="space-y-2">
@@ -92,6 +105,8 @@ const Auth = () => {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(e, "signup")}
+                  autoComplete="new-password"
                 />
               </div>
               <p className="text-xs text-muted-foreground">
